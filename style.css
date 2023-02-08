@@ -1,0 +1,89 @@
+h1{font-size: 2.5em;}
+p{font-size: 1.15em}
+li{list-style: none;}
+ul{padding-left: 5px !important}
+i{padding-right: 5px;}
+body{
+    box-sizing: border-box;
+}
+/*Nav bar*/
+/*configuracion del nav*/
+.navbar{
+    background-color: #f9e206;
+    box-shadow: 0px 11px 24px -18px rgba(0,0,0,0.64);
+}
+.navbar-brand img{
+    width: 50px;
+    height: 50px;
+}
+.d-flex{
+    padding: 0;
+    margin: 0;
+}
+.quitButton:hover{
+    scale: 1.03;
+    transition: 0.8s;
+}
+
+/*Codigo copiado de la consola del navegador con el fin de ver que propiedades de bootstrap
+negaban las propiedades de css que queria añadir*/
+.btn1 {
+    --bs-btn-padding-x: 0.75rem;
+    --bs-btn-padding-y: 0.375rem;
+    --bs-btn-font-family: ;
+    --bs-btn-font-size: 1rem;
+    --bs-btn-font-weight: 400;
+    --bs-btn-line-height: 1.5;
+    --bs-btn-color: #212529;
+    --bs-btn-bg: transparent;
+    --bs-btn-border-width: var(--bs-border-width);
+    --bs-btn-border-color: transparent;
+    --bs-btn-border-radius: 0.375rem;
+    --bs-btn-hover-border-color: transparent;
+    --bs-btn-box-shadow: inset 0 1px 0rgba(255, 255, 255, 0.15),0 1px 1pxrgba(0, 0, 0, 0.075);
+    --bs-btn-disabled-opacity: 0.65;
+    --bs-btn-focus-box-shadow: 0 0 0 0.25remrgba(var(--bs-btn-focus-shadow-rgb), .5);
+    display: inline-block;
+    padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+    font-family: var(--bs-btn-font-family);
+    font-size: var(--bs-btn-font-size);
+    font-weight: var(--bs-btn-font-weight);
+    line-height: var(--bs-btn-line-height);
+    color: var(--bs-btn-color);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    width: 100%; /*:la propiedad que añadi*/
+    cursor: pointer;
+    user-select: none;
+    border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
+    border-radius: var(--bs-btn-border-radius);
+    background-color: var(--bs-btn-bg);
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+/*footer*/
+footer{
+    padding: 60px 0px 20px 0px;
+    background-color: #E9EAEC;
+}
+.flexFooter-container{
+    display: flex;
+    justify-content: space-around;
+}
+.footer-contain{
+    display: flex;
+    flex-direction: column;
+}
+.footer-link{
+    text-decoration: none;
+    color: black;   
+}
+.footer-link:hover{
+    color: #333652;
+    font-weight: bold;
+}
+.footer-contain i{
+    color:#333652; ;
+}
+.copyR{margin-top: 25px;padding-left: 15px;}

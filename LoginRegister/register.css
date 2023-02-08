@@ -1,0 +1,209 @@
+:root {
+    --primary: #90E0EF;
+    --primary-strong:#00B4D8;
+    --secondary-for-light: #000;
+    --secondary-for-dark: #ffffff;
+    --register-bg:#ffffff;
+    --body-bg:#CAF0F8;
+    
+    
+  }
+  /*Fuentes generales*/
+  * {
+    box-sizing: border-box;
+    font-family: "Kanit", Times, serif;
+  }
+  /*Fondo de la pagina*/
+  body {
+    background: linear-gradient(to right, #5f2c82, #49a09d);
+  }
+  
+  h1,
+  p,
+  label {
+    color: var(--secondary-for-light) !important;
+    font-size: 1.05em;
+  }
+  .register-container {
+    max-width: 80%;
+    min-width: 80%;
+    margin: 70px auto;
+    border-radius: 8px;
+    display: flex;
+  }
+  
+  .registerLeft-container {
+    padding: 20px 20px;
+    background-color: var(--register-bg);
+    background-image: url(../src/Vector\ 1Triangle3.png);
+  }
+  /*Bienvenido de vuelta-texto*/
+  .registerLeft-title {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .registerLeft-title h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--secondary);
+    margin: 10px 0px 10px 0px;
+    font-family: "Oswald", serif;
+  }
+  .registerLeft-title p {
+    font-size: 0.8em;
+    color: var(--third);
+    opacity: 0.85;
+    font-family: "Raleway", sans-serif;
+  }
+  /*Form container*/
+  .inputLabel{
+    margin-bottom: 3px;
+  }
+  .input-container {
+    margin-bottom: 10px;
+  }
+  .input-container--rmberMe {
+    display: flex;
+    margin: 0px 0px 25px 0px;
+    justify-content: space-between;
+  }
+   
+  /* .f-pssw-container a{
+    display: inline-block;
+     height: 24px;
+    width: 172.63px; 
+  } */
+  
+  .register-link {
+    text-decoration: none;
+    color: var(--primary);
+  }
+  .register-link:hover {
+    color: #fca311;
+    transition: 0.8s;
+  }
+  /*Botones de iniciar sesion*/
+  .registerB {
+    width: 100%;
+    border-radius: 5px;
+    background-color: #ffc526;
+    border: none;
+    padding: 0.4em;
+    margin-bottom: 10px;
+    font-size: 1.05em;
+    font-weight: bold;
+    font-style: italic;
+  }
+  .registerB:hover {
+    font-size: 1.1em;
+    transition: font-size 1s, background-color 0.3s;
+    background-color: #ffbb00;
+  }
+
+  .signUp-button{
+    width: 80%;
+    margin: 45px auto 0px;
+  }
+  /*"Ya tienes una cuenta?"*/
+  .register-link {
+    text-decoration: none;
+    color: #ffbb00;
+    font-weight: bold;
+  }
+  .register-link--p {
+    text-align: center;
+    margin-bottom: 200px;
+  }
+  .register-link:hover {
+    font-size: 1.1em;
+    transition: 1s;
+  }
+  @media screen AND (max-width:421px){
+    .f-pssw-container{
+      text-align: right;
+    }
+  
+  }
+  @media screen AND (min-width: 535px) {
+    .registerLeft-container {
+      padding: 20px 70px;
+    }
+    .registerLeft-title h1 {
+      font-size: 2em;
+    }
+    .registerLeft-title p {
+      font-size: 1em;
+    }
+  }
+  @media screen AND (min-width: 600px) {
+    .registerLeft-container {
+      padding: 20px 80px;
+    }
+    .registerLeft-container h1 {
+      font-size: 2.5em;
+    }
+  }
+  @media screen AND (min-width: 750px) {
+    .registerLeft-container {
+      padding: 20px 120px;
+    }
+  }
+  @media screen AND (min-width: 850px) {
+    .registerLeft-container {
+      padding: 20px 150px;
+    }
+  }
+  @media screen AND (max-width: 950px) {
+    .register-container {
+      flex-direction: column-reverse;
+    }
+    .registerLeft-container {
+      background-image: none;
+    }
+    .registerRight-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px 0px 0px 0px;
+    }
+    .registerRight-container img {
+      height: 75px;
+      width: 75px;
+      display: none;
+    }
+  }
+  
+  @media screen AND (min-width: 951px) {
+    .register-container {
+      flex-direction: row-reverse;
+    }
+    .registerLeft-container {
+      width: 50%;
+    }
+    .registerLeft-container {
+      padding: 200px 50px;
+    }
+    .registerLeft-container h1 {
+      font-size: 2.5em;
+    }
+    .registerRight-container {
+      width: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(51, 53, 51, 0.85);
+    }
+    .registerRight-container img {
+      height: 355px;
+      width: 355px;
+      object-fit: contain;
+    }
+  }
+  @media screen AND (min-width: 1450px) {
+    .registerLeft-container {
+      padding: 200px 120px;
+    }
+  }
+  

@@ -1,0 +1,66 @@
+/*Carrusel*/
+#hero {
+  background-color: black;
+}
+.w-100 {
+  min-height: 250px;
+  max-height: 700px;
+  object-fit: cover;
+}
+
+/*Seccion About*/
+#about {
+  background-image: url(/src/wave1.svg);
+  background-repeat: no-repeat;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+main{
+    display: flex;
+    justify-content: center;
+}
+.info {
+  min-width: 300px;
+  max-width: 550px;
+  max-height: 300px;
+}
+.info p {
+  padding: 20px;
+}
+
+/*Seccion RegistrateYa*/
+.aboutFluid {
+  padding: 0 !important;
+}
+.registerNow-container {
+  min-height: 90vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #333652;
+  color: white;
+}
+.registerNow-divContain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.registraYa {
+  margin-bottom: 105px;
+  scale: 2;
+}
+#registraYa {
+  scale: 1.4;
+  background-color: #fad02c;
+  font-weight: bold;
+}
+#registraYa:hover {
+  scale: 1.5;
+  transition: 0.7s;
+  color: black;
+}
