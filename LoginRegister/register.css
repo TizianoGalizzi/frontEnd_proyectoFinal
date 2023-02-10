@@ -1,209 +1,190 @@
 :root {
-    --primary: #90E0EF;
-    --primary-strong:#00B4D8;
-    --secondary-for-light: #000;
-    --secondary-for-dark: #ffffff;
-    --register-bg:#ffffff;
-    --body-bg:#CAF0F8;
-    
-    
+  --primary: #90e0ef;
+  --primary-strong: #00b4d8;
+  --secondary-for-light: #000;
+  --secondary-for-dark: #ffffff;
+  --register-bg: #ffffff;
+  --body-bg: #caf0f8;
+}
+/*Fuentes generales*/
+* {
+  box-sizing: border-box;
+  font-family: "Kanit", Times, serif;
+}
+/*Fondo de la pagina*/
+body {
+  background: linear-gradient(to right, #03045e, #00b4d8); /*#5f2c82, #49a09d*/
+}
+
+h1,
+p,
+label {
+  color: var(--secondary-for-light) !important;
+  font-size: 1.05em;
+}
+.register-container {
+  max-width: 80%;
+  min-width: 80%;
+  margin: 70px auto;
+  border-radius: 8px;
+  display: flex;
+}
+
+.registerLeft-container {
+  padding: 20px 20px;
+  background-color: var(--register-bg);
+  background-image: url(../src/registerWave2.svg);
+  background-repeat: no-repeat;
+  position: relative;
+}
+/*Bienvenido de vuelta-texto*/
+.registerLeft-title {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 70px 0px 25px 0px;
+}
+.registerLeft-title h1 {
+  font-size: 2.5em;
+  font-weight: bold;
+  margin: 10px 0px 10px 0px;
+  font-family: "Oswald", serif;
+}
+.registerLeft-title p {
+  font-size: 0.8em;
+  opacity: 0.85;
+  font-family: "Raleway", sans-serif;
+}
+/*Form container*/
+.inputLabel {
+  margin-bottom: 3px;
+}
+.input-container {
+  margin-bottom: 10px;
+}
+
+/*Botones de registro*/
+.registerB {
+  width: 100%;
+  border-radius: 5px;
+  background-color: var(--primary); /*#ffc526*/
+  border: none;
+  padding: 0.4em;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.registerB:hover {
+  font-size: 1.3em;
+  transition: font-size 1s, background-color 0.6s;
+  background-color: var(--primary-strong);
+}
+
+.signUp-button {
+  width: 80%;
+  margin: 45px auto 0px;
+}
+/*"Ya tienes una cuenta?"*/
+.login-link {
+  text-decoration: none;
+  color: #ffbb00;
+  font-weight: bold;
+}
+.login-link--p {
+  text-align: center;
+  margin-bottom: 110px;
+}
+.login-link:hover {
+  font-size: 1.1em;
+  transition: 1s;
+}
+
+/*Decoracion de ola*/
+.waveSvg-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 15%;
+  width: 100%;
+  background-image: url(../src/invertedWave.svg);
+  background-size: cover;
+}
+/*Ajustes de propiedades segun tamaño de la pantalla:*/
+@media screen AND (max-width: 421px) {
+  .f-pssw-container {
+    text-align: right;
   }
-  /*Fuentes generales*/
-  * {
-    box-sizing: border-box;
-    font-family: "Kanit", Times, serif;
-  }
-  /*Fondo de la pagina*/
-  body {
-    background: linear-gradient(to right, #5f2c82, #49a09d);
-  }
-  
-  h1,
-  p,
-  label {
-    color: var(--secondary-for-light) !important;
-    font-size: 1.05em;
-  }
-  .register-container {
-    max-width: 80%;
-    min-width: 80%;
-    margin: 70px auto;
-    border-radius: 8px;
-    display: flex;
-  }
-  
+}
+@media screen AND (min-width: 535px) {
   .registerLeft-container {
-    padding: 20px 20px;
-    background-color: var(--register-bg);
-    background-image: url(../src/Vector\ 1Triangle3.png);
-  }
-  /*Bienvenido de vuelta-texto*/
-  .registerLeft-title {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .registerLeft-title h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--secondary);
-    margin: 10px 0px 10px 0px;
-    font-family: "Oswald", serif;
-  }
-  .registerLeft-title p {
-    font-size: 0.8em;
-    color: var(--third);
-    opacity: 0.85;
-    font-family: "Raleway", sans-serif;
-  }
-  /*Form container*/
-  .inputLabel{
-    margin-bottom: 3px;
-  }
-  .input-container {
-    margin-bottom: 10px;
-  }
-  .input-container--rmberMe {
-    display: flex;
-    margin: 0px 0px 25px 0px;
-    justify-content: space-between;
-  }
-   
-  /* .f-pssw-container a{
-    display: inline-block;
-     height: 24px;
-    width: 172.63px; 
-  } */
-  
-  .register-link {
-    text-decoration: none;
-    color: var(--primary);
-  }
-  .register-link:hover {
-    color: #fca311;
-    transition: 0.8s;
-  }
-  /*Botones de iniciar sesion*/
-  .registerB {
-    width: 100%;
-    border-radius: 5px;
-    background-color: #ffc526;
-    border: none;
-    padding: 0.4em;
-    margin-bottom: 10px;
-    font-size: 1.05em;
-    font-weight: bold;
-    font-style: italic;
-  }
-  .registerB:hover {
-    font-size: 1.1em;
-    transition: font-size 1s, background-color 0.3s;
-    background-color: #ffbb00;
+    padding: 20px 70px;
   }
 
-  .signUp-button{
-    width: 80%;
-    margin: 45px auto 0px;
+  .registerLeft-title p {
+    font-size: 1em;
   }
-  /*"Ya tienes una cuenta?"*/
-  .register-link {
-    text-decoration: none;
-    color: #ffbb00;
-    font-weight: bold;
+}
+@media screen AND (min-width: 600px) {
+  .registerLeft-container {
+    padding: 20px 80px;
   }
-  .register-link--p {
-    text-align: center;
-    margin-bottom: 200px;
+}
+@media screen AND (min-width: 750px) {
+  .registerLeft-container {
+    padding: 20px 120px;
   }
-  .register-link:hover {
-    font-size: 1.1em;
-    transition: 1s;
+}
+@media screen AND (min-width: 850px) {
+  .registerLeft-container {
+    padding: 20px 150px;
   }
-  @media screen AND (max-width:421px){
-    .f-pssw-container{
-      text-align: right;
-    }
-  
+}
+@media screen AND (max-width: 950px) {
+  .register-container {
+    flex-direction: column-reverse;
   }
-  @media screen AND (min-width: 535px) {
-    .registerLeft-container {
-      padding: 20px 70px;
-    }
-    .registerLeft-title h1 {
-      font-size: 2em;
-    }
-    .registerLeft-title p {
-      font-size: 1em;
-    }
+
+  .registerRight-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 0px 0px 0px;
   }
-  @media screen AND (min-width: 600px) {
-    .registerLeft-container {
-      padding: 20px 80px;
-    }
-    .registerLeft-container h1 {
-      font-size: 2.5em;
-    }
+  .registerRight-container img {
+    height: 75px;
+    width: 75px;
+    display: none;
   }
-  @media screen AND (min-width: 750px) {
-    .registerLeft-container {
-      padding: 20px 120px;
-    }
+}
+
+@media screen AND (min-width: 951px) {
+  .register-container {
+    flex-direction: row-reverse;
   }
-  @media screen AND (min-width: 850px) {
-    .registerLeft-container {
-      padding: 20px 150px;
-    }
+  .registerLeft-container {
+    width: 50%;
   }
-  @media screen AND (max-width: 950px) {
-    .register-container {
-      flex-direction: column-reverse;
-    }
-    .registerLeft-container {
-      background-image: none;
-    }
-    .registerRight-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 25px 0px 0px 0px;
-    }
-    .registerRight-container img {
-      height: 75px;
-      width: 75px;
-      display: none;
-    }
+  .registerLeft-container {
+    padding: 150px 50px;
+    background-image: url(../src/registerWave3.svg);
   }
-  
-  @media screen AND (min-width: 951px) {
-    .register-container {
-      flex-direction: row-reverse;
-    }
-    .registerLeft-container {
-      width: 50%;
-    }
-    .registerLeft-container {
-      padding: 200px 50px;
-    }
-    .registerLeft-container h1 {
-      font-size: 2.5em;
-    }
-    .registerRight-container {
-      width: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: rgba(51, 53, 51, 0.85);
-    }
-    .registerRight-container img {
-      height: 355px;
-      width: 355px;
-      object-fit: contain;
-    }
+
+  .registerRight-container {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--body-bg);
   }
-  @media screen AND (min-width: 1450px) {
-    .registerLeft-container {
-      padding: 200px 120px;
-    }
+  .registerRight-container img {
+    height: 355px;
+    width: 355px;
+    object-fit: contain;
   }
-  
+}
+@media screen AND (min-width: 1450px) {
+  .registerLeft-container {
+    padding: 175px 120px;
+  }
+}

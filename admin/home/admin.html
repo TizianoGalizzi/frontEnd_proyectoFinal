@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="../../style.css" />
+    <link rel="stylesheet" href="../../public/home.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -22,7 +22,7 @@
       href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Fira+Sans+Extra+Condensed:ital,wght@0,100;0,200;0,300;1,100;1,200&family=Hind:wght@300;400&family=Lobster&family=Lobster+Two&family=Open+Sans:ital,wght@0,400;0,500;1,400;1,500&family=Oswald&family=PT+Sans:ital@0;1&family=Teko&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" href="../src/favicon.ico" />
+    <link rel="icon" href="../../src/favicon.ico" />
     <title>Home</title>
   </head>
   <body>
@@ -31,7 +31,7 @@
       <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
           <a class="navbar-brand" href="index.html">
-            <img src="../src/logo.png" alt="logo" />
+            <img src="../../src/logo.png" alt="logo" />
             TezCourses
           </a>
           <button
@@ -44,7 +44,7 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-
+  
           <div
             class="collapse navbar-collapse navbar-container"
             id="navbarSupportedContent"
@@ -57,7 +57,28 @@
                   >Home</a
                 >
               </li>
-
+              <div class="dropdown nav-dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Alumnos
+                  </a>
+  
+                  <ul id="dropdown-container" class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="../listadoAlumnos.html"
+                        >Listado de alumnos</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">Inscripcion de alumnos</a>
+                    </li>
+                  </ul>
+                </div>
               <li class="nav-item">
                 <a class="nav-link" href="#">Cursos</a>
               </li>
@@ -71,7 +92,7 @@
                 >
                   Nombre de usuario
                 </a>
-
+  
                 <ul id="dropdown-container" class="dropdown-menu">
                   <button type="button" class="btn1 btn-danger quitButton">
                     Cerrar Sesión
@@ -92,7 +113,7 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img
-              src="../src/LaptopCode2.jpg"
+              src="../../src/LaptopCode2.jpg"
               class="d-block w-100"
               alt="Bienvenido a la plataforma de gestión de cursos de Silicon"
             />
@@ -104,7 +125,7 @@
           </div>
           <div class="carousel-item">
             <img
-              src="../src/Programm.jpg"
+              src="../../src/Programm.jpg"
               class="d-block w-100"
               alt="Creando talento IT en el nordeste Argentino"
             />

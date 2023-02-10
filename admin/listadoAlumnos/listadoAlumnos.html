@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../style.css"/>
+    <link rel="stylesheet" href="../../style.css"/>
     <link rel="stylesheet" href="listadoAlumnos.css"/>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
@@ -19,72 +19,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Fira+Sans+Extra+Condensed:ital,wght@0,100;0,200;0,300;1,100;1,200&family=Hind:wght@300;400&family=Lobster&family=Lobster+Two&family=Open+Sans:ital,wght@0,400;0,500;1,400;1,500&family=Oswald&family=PT+Sans:ital@0;1&family=Teko&display=swap" rel="stylesheet">
-    <link rel="icon" href="../src/favicon.ico" />
+    <link rel="icon" href="../../src/favicon.ico" />
     <title>Listado de alumnos</title>
   </head>
   <body>
-    <header>
-      <!-- Navbar-->
-      <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            <img src="../src/logo.png" alt="logo" />
-            TezCourses
-          </a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div
-            class="collapse navbar-collapse navbar-container"
-            id="navbarSupportedContent"
-          >
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#">Home</a>
-              </li>
-
-              <div class="dropdown">
-                <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Alumnos
-                </a>
-              
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item active" href="#">Listado de alumnos</a></li>
-                  <li><a class="dropdown-item" href="#">Inscripcion de alumnos</a></li>
-                </ul>
-              </div>
-
-              <li class="nav-item">
-                <a class="nav-link" href="#">Cursos</a>
-              </li>
-              
-            </ul>
-            <ul class="d-flex">
-              <div class="dropdown">
-                <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Nombre de usuario
-                </a>
-              
-                <ul class="dropdown-menu">
-                  <button type="button" class="btn1 btn-danger quitButton">
-                    Cerrar Sesión
-                  </button>
-                  </ul>
-              </div>
-              
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </header>
 
     <section id="listadoAlumnos">
       <div class="container">
@@ -232,14 +170,14 @@
             <!--Fila Header-->
             <div id="grid-item-header" class="grid-item">ID</div>
             <div id="grid-item-header" class="grid-item">Nombre</div>
-            <div id="grid-item-header" class="grid-item">Edad</div>
+            <div id="grid-item-header" class="grid-item">DNI</div>
             <div id="grid-item-header" class="grid-item">Cursos</div>
             <div id="grid-item-header" class="grid-item">Editar</div>
             <div id="grid-item-header" class="grid-item brD">Eliminar</div>
             <!--Fila Contenido-->
             <div class="grid-item">5</div>
             <div class="grid-item">Tiziano Sebastian Galizzi</div>
-            <div class="grid-item">18</div>
+            <div class="grid-item">46241068</div>
             <div class="grid-item">Javascript<br />NodeJS<br />Database</div>
             <div class="grid-item">
               <button type="button" class="listButtons">
@@ -252,6 +190,7 @@
               </button>
             </div>
           </div>
+          
         </div>
       </div>
     </section>

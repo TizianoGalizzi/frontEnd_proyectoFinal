@@ -19,9 +19,9 @@
   flex-direction: column;
   text-align: center;
 }
-main{
-    display: flex;
-    justify-content: center;
+main {
+  display: flex;
+  justify-content: center;
 }
 .info {
   min-width: 300px;
@@ -51,8 +51,9 @@ main{
   align-items: center;
 }
 .registraYa {
-  margin-bottom: 105px;
-  scale: 2;
+  margin-bottom: 85px;
+  font-size: 4.5em;
+  font-family: 'Teko',sans-serif;
 }
 #registraYa {
   scale: 1.4;

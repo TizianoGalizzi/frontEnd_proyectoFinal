@@ -1,0 +1,143 @@
+a {
+    text-decoration: none;
+}
+/*Opciones admin*/
+/*Opcion edit*/
+.edit-container{
+    text-align: center;
+    margin-top: 25px;
+}
+.edit-button{
+    width: 75px;
+    height: 75px;
+
+    font-size: 1.9em;
+    box-sizing: border-box;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 0px 3px 10px rgba(0,0,0,0.25);
+    border: none;
+}
+.edit-button:hover{
+    font-size: 2em;
+    box-shadow: 5px 7px 10px rgba(0,0,0,0.25);
+}
+.edit-button i{
+    padding: 0;
+}
+/*create button*/
+.createCourse-container{
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    width: 75px;
+    height: 75px;
+    border-radius: 55px;
+    background-color: #fdc500;
+    color: black;
+
+}
+#createCourse{
+    width: 75px;
+    height: 75px;
+    border-radius: 55px;
+    background-color: inherit;
+    font-size: 1.9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+#createCourse i{
+    padding: 0;
+}
+#createCourse:hover{
+    scale: 1.15;
+    transition: all 1s;
+}
+
+
+
+
+
+
+/*Titulo de la pagina*/
+.main-title-h1{
+margin: 125px 0px 85px 15px;
+}
+/*CourseCards*/
+.course-card{
+    display: inline-block;
+    overflow-y: hidden;
+    border-radius:13px ;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+}
+.course-card:hover{
+    scale: 1.1;
+    transition: 1s;
+}
+/*Contendor de la imagen*/
+.img-container{
+    height: 150px;
+}
+
+
+
+
+/*Imagen*/
+.course-img{
+    width: 100%;
+    height: 150px;
+    filter: blur(1.5px);
+    object-fit:cover;
+    
+}
+.course-img:hover{
+    filter: blur(0.5px);
+    transition: 0.75s;
+    cursor: pointer;
+}
+/*Contenedor del titulo y descripcion del card*/
+.cardText-container{
+    margin: 10px 15px 5px 15px;
+}
+.cardText-container h3{
+    font-size: 1.3em;
+}
+.cardText-container p{
+    font-size: 0.80em;
+}
+
+
+/*Contenedor de los contenedores de los cursos*/
+.grid-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,325px);
+    grid-template-rows: 325px;
+    grid-auto-rows:325px ;
+    grid-auto-flow: row;
+    gap: 25px;
+    margin: auto;
+}
+@media (max-width:1199px){
+    .grid-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fill,455px);
+        grid-template-rows: 325px;
+        grid-auto-rows:325px ;
+        grid-auto-flow: row;
+        gap: 25px;
+        margin: auto;
+    }
+}
+@media (max-width:991px){
+    .grid-container{
+        display: grid;
+        grid-template-columns: repeat(1,minmax(300px,695px));
+        grid-template-rows: 325px;
+        grid-auto-rows:325px ;
+        grid-auto-flow: row;
+        gap: 25px;
+        margin: auto;
+    }
+}

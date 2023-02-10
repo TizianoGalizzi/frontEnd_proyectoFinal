@@ -37,7 +37,7 @@ label {
   display: flex;
   flex-direction: column;
   text-align: center;
-  margin-bottom: 20px;
+  margin: 55px 0px 20px 0px;
 }
 .loginLeft-title h1 {
   font-size: 2rem;
@@ -53,7 +53,7 @@ label {
   font-family: "Raleway", sans-serif;
 }
 /*Form container*/
-.inputLabel{
+.inputLabel {
   margin-bottom: 3px;
 }
 .input-container {
@@ -64,7 +64,7 @@ label {
   margin: 0px 0px 25px 0px;
   justify-content: space-between;
 }
- 
+
 /* .f-pssw-container a{
   display: inline-block;
    height: 24px;
@@ -120,11 +120,10 @@ label {
   font-size: 1.1em;
   transition: 1s;
 }
-@media screen AND (max-width:421px){
-  .f-pssw-container{
+@media screen AND (max-width: 421px) {
+  .f-pssw-container {
     text-align: right;
   }
-
 }
 @media screen AND (min-width: 535px) {
   .loginLeft-container {

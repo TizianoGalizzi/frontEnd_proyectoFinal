@@ -1,0 +1,15 @@
+/*H1*/
+.main-title{
+    margin: 200px 0px 75px 0px;
+}
+/*Seleccion de curso area*/
+.courseSelection-container{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+.courseSelection-title{
+    margin-bottom: 10px;
+    font-size: 2e;
+}
+
