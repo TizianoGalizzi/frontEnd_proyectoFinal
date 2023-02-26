@@ -1,3 +1,13 @@
+:root{
+    --primary-color: #0000;
+    --secondary-color: #e45149;
+    --third-color: #fceec7;
+    --footer-bg: #0a463c;
+    --footer-text: #ffff; /*o #fceec7*/
+    --saved-from-footer: #E9EAEC;
+    --registra-ya-bg: #333652;
+
+}
 *{
     font-family: 'Open Sans',sans-serif; 
  }
@@ -12,21 +22,34 @@ i{padding-right: 5px;}
 
 
 /*configuracion del nav*/
-.navbar{
-    background-color: #f9e206;
+.navBar-container{
+    background-color: var(--secondary-color);
     box-shadow: 0px 11px 24px -18px rgba(0,0,0,0.64);
 }
-.nav-item{
-    padding-right: 15px;
+.nav-link--title{
+    text-decoration: none;
+    color: black;
 }
-.navbar-brand img{
-    width: 50px;
-    height: 50px;
-    transform: rotate(360deg);
+.nav-link--title:hover{
+    text-decoration: none;
+    color: black; 
 }
-.navbar-brand img:hover{
-    width: 50px;
-    height: 50px;
+.nav-link{
+    padding: 0px 15px 10px 0px!important;
+    text-decoration: none;
+    color: black;
+}
+.nav-link:hover{
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: font-size 0.3s;
+}
+.navbar-brand{
+    width: 45px;
+    height: 45px;
+    margin-right: 5px !important;
+}
+.navbar-brand:hover{
     animation-name: logoVibration;
     animation-duration: 0.8s;   
 }
@@ -48,18 +71,14 @@ i{padding-right: 5px;}
         transform: rotate(0deg);
     }
 } 
-.nav-item:hover{
-    font-size: 1.1em;
-    font-weight: bold;
-    transition: font-size 0.3s;
-}
 
-#dropdown-container{
-    width: 45%;
-}
-.quitButton:hover{
-    scale: 1.03;
-    transition: 0.8s;
+
+.d-flex{
+    display: flex;
+    flex-direction: column;
+    padding-right: 45px;
+    box-sizing: border-box;
+    
 }
 
 /*Codigo copiado de la consola del navegador con el fin de ver que propiedades de bootstrap
@@ -101,8 +120,8 @@ negaban las propiedades de css que queria añadir*/
 
 /*footer*/
 footer{
-    padding: 60px 0px 20px 0px;
-    background-color: #E9EAEC;
+    padding: 100px 0px 35px 0px;
+    background-color: var(--registra-ya-bg);
 }
 .flexFooter-container{
     display: flex;
@@ -110,17 +129,34 @@ footer{
 }
 .footer-contain{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+}
+ 
+.footer-li{
+    text-decoration: none;
+    color: var(--third-color);    
 }
 .footer-link{
     text-decoration: none;
-    color: black;   
+    color: var(--third-color);   
 }
 .footer-link:hover{
-    color: #333652;
-    font-weight: bold;
+    color: var(--secondary-color);
+    transition: all 0.7s;
 }
 .footer-contain i{
-    color:#333652; ;
+    color:var(--third-color) ;
 }
-.copyR{margin-top: 25px;padding-left: 15px;}
+.copyR{
+    margin-top: 75px;
+    padding: 0px 0px 2px 20px ;
+    color: var(--third-color);
+}
+
+@media screen AND (min-width:991px) {
+    .d-flex{
+        display: flex;
+        flex-direction: row !important;
+        padding-left: 3px;
+    }
+}

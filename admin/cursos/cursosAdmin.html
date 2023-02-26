@@ -1,190 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="../../public/cursos.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://kit.fontawesome.com/184863c578.js"
-      crossorigin="anonymous"
-    ></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Fira+Sans+Extra+Condensed:ital,wght@0,100;0,200;0,300;1,100;1,200&family=Hind:wght@300;400&family=Lobster&family=Lobster+Two&family=Open+Sans:ital,wght@0,400;0,500;1,400;1,500&family=Oswald&family=PT+Sans:ital@0;1&family=Teko&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="icon" href="" />
-    <title>Cursos admin</title>
-  </head>
-  <body>
-    <section id="listaCursos">
-      <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="edit-container">
-                    <!--Boton que despliega el primer modal-->
-                        <button class="edit-button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-pen"></i></button>
-                        <!--Primer modal-->
-                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content"> <!--Inicio Contenido del modal-->
-                                <div class="modal-header"> <!--Inicio Header-->
-                                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Cursos</h1>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div><!--Fin Header-->
-                                <div class="modal-body"> <!--Inicio Body-->
-                                  <form>
-                                        <div class="container-fluid" style="text-align: left;">
-                                    <!--Seleccion de curso-->
-                                            <div class="row">
-                                            <div class="col-12">
-                                                <label for="selectCourse" class="form-label">Que curso desea editar?</label>
-                                                <select id="selectCourse" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                                                    <option selected>Selecciona un curso</option>
-                                                    <option value="1">NodeJS</option>
-                                                    <option value="2">SQL</option>
-                                                    <option value="3">asdasd</option>
-                                                  </select>
-                                            </div>
-                                            </div>
-                                            <div class="row">
-                                            <div class="col-12 ">
-                                                <label for="edit-img-input">Seleccione una nueva imagen para el curso</label>
-                                                <input id="edit-img-input" type="file" class="form-control" >
-                                            </div>
-                                            </div>
-                                            <div class="row">
-                                            <div class="col-12">
-                                                <label for="edit-title-input">Escriba un nuevo titulo para el curso</label>
-                                                <input id="edit-title-input" type="text" class="form-control" >
-                                            </div>
-                                            </div>
-                                            <div class="row">
-                                            <div class="col-12">
-                                                <label for="edit-title-input">Descripcion del curso</label>
-                                                <textarea id="edit-title-input" type="" class="form-control" ></textarea>
-                                            </div>
-                                            </div>   
-                                        </div>
-                                </div> <!--Fin Body-->
-                                <div class="modal-footer"><!--Inicio footer-->
-                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                  <button type="submit" class="btn btn-primary">Editar</button>
-                                  <button type="submit" class="btn btn-danger" data-bs-target="#ModalToggle2" data-bs-toggle="modal">Eliminar</button>
-                                </div><!--Fin footer-->
-                                </form>
-                            </div><!--Fin Contenido del modal-->
-                        </div>
-                    </div>
-                    <!--Inicio segundo modal-->
-                            <div class="modal fade" id="ModalToggle2" aria-hidden="true" aria-labelledby="ModalToggleLabel2" tabindex="-1">
-                                <div class="modal-dialog modal-dialog-centered">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h1 class="modal-title fs-5" id="ModalToggleLabel2">Eliminar curso</h1>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                      Seguro que deseas eliminar el curso Nombre Del Curso?
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button class="btn btn-danger">Eliminar curso</button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                </div>
-                          
-                         
 
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../../public/cursos.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+  <script src="https://kit.fontawesome.com/184863c578.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Fira+Sans+Extra+Condensed:ital,wght@0,100;0,200;0,300;1,100;1,200&family=Hind:wght@300;400&family=Lobster&family=Lobster+Two&family=Open+Sans:ital,wght@0,400;0,500;1,400;1,500&family=Oswald&family=PT+Sans:ital@0;1&family=Teko&display=swap"
+    rel="stylesheet" />
+  <link rel="icon" href="" />
+  <title>Cursos admin</title>
+</head>
+
+<body>
+  <section id="listaCursos">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="edit-container">
+            <!--Boton que despliega el primer modal-->
+            <button class="edit-button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i
+                class="fa-solid fa-pen"></i></button>
+            <!--Primer modal-->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+              aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content"> <!--Inicio Contenido del modal-->
+                  <div class="modal-header"> <!--Inicio Header-->
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Cursos</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div><!--Fin Header-->
+                  <div class="modal-body"> <!--Inicio Body-->
+                    <form>
+                      <div class="container-fluid" style="text-align: left;">
+                        <!--Seleccion de curso-->
+                        <div class="row">
+                          <div class="col-12">
+                            <label for="selectCourse" class="form-label">Que curso desea editar?</label>
+                            <select id="selectCourse" class="form-select form-select-lg mb-3"
+                              aria-label=".form-select-lg example">
+                              <option selected>Selecciona un curso</option>
+                              <option value="1">NodeJS</option>
+                              <option value="2">SQL</option>
+                              <option value="3">asdasd</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 ">
+                            <label for="edit-img-input">Seleccione una nueva imagen para el curso</label>
+                            <input id="edit-img-input" type="file" class="form-control">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                            <label for="edit-title-input">Escriba un nuevo titulo para el curso</label>
+                            <input id="edit-title-input" type="text" class="form-control">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                            <label for="edit-title-input">Descripcion del curso</label>
+                            <textarea id="edit-title-input" type="" class="form-control"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                  </div> <!--Fin Body-->
+                  <div class="modal-footer"><!--Inicio footer-->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                    <button type="submit" class="btn btn-danger" data-bs-target="#ModalToggle2"
+                      data-bs-toggle="modal">Eliminar</button>
+                  </div><!--Fin footer-->
+                  </form>
+                </div><!--Fin Contenido del modal-->
+              </div>
+            </div>
+            <!--Inicio segundo modal-->
+            <div class="modal fade" id="ModalToggle2" aria-hidden="true" aria-labelledby="ModalToggleLabel2"
+              tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="ModalToggleLabel2">Eliminar curso</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Seguro que deseas eliminar el curso Nombre Del Curso?
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-danger">Eliminar curso</button>
+                  </div>
                 </div>
-            </div> 
-        <div class="row">
-          <div class="col">
-            <h1 class="main-title-h1">Cursos disponibles</h1>
+              </div>
+            </div>
           </div>
+
+
+
         </div>
-    <div class="grid-container">
-          <div class="course-card">
-            <div class="img-container">
-                <!--Boton edit-->
-                <!-- <span id="buttonSettings" role="button"><i class="fa-solid fa-pen" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></i>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1 class="main-title-h1">Cursos disponibles</h1>
+        </div>
+      </div>
+      <div class="grid-container">
+        <div class="course-card">
+          <div class="img-container">
+            <!--Boton edit-->
+            <!-- <span id="buttonSettings" role="button"><i class="fa-solid fa-pen" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></i>
                 </span> -->
 
 
-                <a href="#"><img class="course-img" src="../src/Programm.jpg" alt="Javascript" /></a>
-            </div>
-            <div class="cardText-container">
-              <h3>Cosmetologia</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Consequuntur enim doloribus architecto? Minima consequuntur
-                culpa voluptate facere iure cum repellendus illo, nesciunt
-                voluptatum ad ea tempora nemo qui architecto modi.
-              </p>
-            </div>
+            <a href="#"><img class="course-img" src="../src/Programm.jpg" alt="Javascript" /></a>
+          </div>
+          <div class="cardText-container">
+            <h3>Cosmetologia</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Consequuntur enim doloribus architecto? Minima consequuntur
+              culpa voluptate facere iure cum repellendus illo, nesciunt
+              voluptatum ad ea tempora nemo qui architecto modi.
+            </p>
+          </div>
         </div>
+      </div>
     </div>
-        </div>
-        <div class="createCourse-container">
-            <button id="createCourse" type="button" data-bs-toggle="modal" data-bs-target="#courseCreator-modal"><i class="fa-solid fa-plus"></i></button>
-            <!--Modal de crear cursos-->
-            <div class="modal fade" id="courseCreator-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="courseCreator-modalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content"> <!--Inicio Contenido del modal-->
-                        <div class="modal-header"> <!--Inicio Header-->
-                          <h1 class="modal-title fs-5" id="courseCreator-modalLabel">Crear Cursos</h1>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div><!--Fin Header-->
-                        <div class="modal-body"> <!--Inicio Body-->
-                          <form>
-                                <div class="container-fluid" style="text-align: left;">
-                           
-                                    <div class="row">
-                                    <div class="col-12 ">
-                                        <label for="create-img-input">Seleccione una imagen para el nuevo curso</label>
-                                        <input id="create-img-input" type="file" class="form-control" >
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                    <div class="col-12">
-                                        <label for="create-title-input">Escriba un titulo para el nuevo curso</label>
-                                        <input id="create-title-input" type="text" class="form-control" >
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                    <div class="col-12">
-                                        <label for="create-title-input">Descripcion del curso</label>
-                                        <textarea id="create-title-input" type="text" class="form-control" ></textarea>
-                                    </div>
-                                    </div>   
-                                </div>
-                        </div> <!--Fin Body-->
-                        <div class="modal-footer"><!--Inicio footer-->
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                          <button type="submit" class="btn btn-success">Crear curso</button>
-                        </div><!--Fin footer-->
-                    </form>
-                    </div><!--Fin Contenido del modal-->
-                </div>
-            </div>
-            <!--Fin modal de crear cursos-->
-        </div>
-        
+    <div class="createCourse-container">
+      <button id="createCourse" type="button" data-bs-toggle="modal" data-bs-target="#courseCreator-modal"><i
+          class="fa-solid fa-plus"></i></button>
+      <!--Modal de crear cursos-->
+      <div class="modal fade" id="courseCreator-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="courseCreator-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content"> <!--Inicio Contenido del modal-->
+            <div class="modal-header"> <!--Inicio Header-->
+              <h1 class="modal-title fs-5" id="courseCreator-modalLabel">Crear Cursos</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div><!--Fin Header-->
+            <div class="modal-body"> <!--Inicio Body-->
+              <form>
+                <div class="container-fluid" style="text-align: left;">
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+                  <div class="row">
+                    <div class="col-12 ">
+                      <label for="create-img-input">Seleccione una imagen para el nuevo curso</label>
+                      <input id="create-img-input" type="file" class="form-control">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="create-title-input">Escriba un titulo para el nuevo curso</label>
+                      <input id="create-title-input" type="text" class="form-control">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="create-title-input">Descripcion del curso</label>
+                      <textarea id="create-title-input" type="text" class="form-control"></textarea>
+                    </div>
+                  </div>
+                </div>
+            </div> <!--Fin Body-->
+            <div class="modal-footer"><!--Inicio footer-->
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success">Crear curso</button>
+            </div><!--Fin footer-->
+            </form>
+          </div><!--Fin Contenido del modal-->
+        </div>
+      </div>
+      <!--Fin modal de crear cursos-->
+    </div>
+  </section id="listaCursos">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+      crossorigin="anonymous"></script>
+</body>
+
 </html>

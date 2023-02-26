@@ -1,65 +1,46 @@
 a {
     text-decoration: none;
 }
-/*Opciones admin*/
-/*Opcion edit*/
-.edit-container{
-    text-align: center;
-    margin-top: 25px;
+/*Seccion*/
+#listaCursos{
+    margin-bottom: 250px;
 }
-.edit-button{
+/*Opciones*/
+.settings-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 25px auto 0px;
+}
+.settings-container-child{
+    text-align: center;
+    margin-right: 25px;
+}
+.settings-button{
     width: 75px;
     height: 75px;
-
     font-size: 1.9em;
     box-sizing: border-box;
     border-radius: 15px;
     background-color: white;
     box-shadow: 0px 3px 10px rgba(0,0,0,0.25);
     border: none;
+    color: black;
 }
-.edit-button:hover{
+.settings-button:hover{
     font-size: 2em;
     box-shadow: 5px 7px 10px rgba(0,0,0,0.25);
+    background-color: white;
+    color: var(--secondary-color);
+    transition: color 0.3s;
 }
-.edit-button i{
+.settings-button:active {
+    background-color: var(--secondary-color) !important;
+    color: white;
+}
+.settings-button i{
     padding: 0;
 }
-/*create button*/
-.createCourse-container{
-    position: absolute;
-    bottom: 25px;
-    right: 25px;
-    width: 75px;
-    height: 75px;
-    border-radius: 55px;
-    background-color: #fdc500;
-    color: black;
-
-}
-#createCourse{
-    width: 75px;
-    height: 75px;
-    border-radius: 55px;
-    background-color: inherit;
-    font-size: 1.9em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-}
-#createCourse i{
-    padding: 0;
-}
-#createCourse:hover{
-    scale: 1.15;
-    transition: all 1s;
-}
-
-
-
-
-
 
 /*Titulo de la pagina*/
 .main-title-h1{
@@ -140,4 +121,18 @@ margin: 125px 0px 85px 15px;
         gap: 25px;
         margin: auto;
     }
+}
+/*Seccion crearCurso*/
+#crearCurso{
+    padding: 150px 25px 200px 25px;
+}
+.crearCurso-h1{
+    margin-bottom: 35px;
+}
+/*Crear curso pagina*/
+.input-container{
+    margin-bottom:20px;
+}
+.input-container label{
+    margin-bottom: 5px;
 }
