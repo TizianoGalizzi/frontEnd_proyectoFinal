@@ -1,6 +1,33 @@
 a {
     text-decoration: none;
 }
+/*Boton para volver a cursos*/
+.backButton-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 90px;
+    color: black;
+    width: 55px;
+    height: 55px;
+    border-radius: 15px;
+    background-color: var(--third-color);
+}
+.backButton{
+    border: none;
+    border-radius: 15px;
+    width: 55px;
+    height: 55px;
+    background-color: inherit;
+    font-size: 1.8em;
+    color: black;
+}
+.backButton:hover{
+    background-color: var(--secondary-color);
+}
+
+
 /*Seccion*/
 #listaCursos{
     margin-bottom: 250px;
@@ -124,10 +151,11 @@ margin: 125px 0px 85px 15px;
 }
 /*Seccion crearCurso*/
 #crearCurso{
-    padding: 150px 25px 200px 25px;
+    min-height: 90vh;
+    padding: 0px 25px;
 }
 .crearCurso-h1{
-    margin-bottom: 35px;
+    margin: 150px 0px 35px 0px;
 }
 /*Crear curso pagina*/
 .input-container{
@@ -135,4 +163,19 @@ margin: 125px 0px 85px 15px;
 }
 .input-container label{
     margin-bottom: 5px;
+}
+/*Boton de crear curso*/
+.crearCurso-button{
+    background-color: var(--secondary-color);
+    font-size: 1.1em;
+    color: white;
+}
+.crearCurso-button:hover{
+    background-color: var(--secondary-color);
+    color: white;
+    font-weight: bold;
+}
+.crearCurso-button:active{
+    font-size: 1.1em;
+    color: black;
 }

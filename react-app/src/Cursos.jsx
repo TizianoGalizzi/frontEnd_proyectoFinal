@@ -1,5 +1,6 @@
 import './css/style.css'
 import './css/cursos.css'
+import './css/inscAlumnos.css'
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
@@ -7,9 +8,12 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
+import Table from 'react-bootstrap/Table';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPen, faPlus, faArrowLeft, faUserPlus, faUserXmark } from '@fortawesome/free-solid-svg-icons'
 
 function ModalEdit(props) {
     return (
@@ -59,11 +63,55 @@ function ModalEdit(props) {
         </>
     )
 }
+function CursoTablaAlumnos(props) {
+    return (
+        <>
+            <div>
+                <Table responsive="sm" striped bordered>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>DNI</th>
+                            <th>ID_usuario</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr> {/*Fila de tabla para alumno no inscripto al curso*/}
+                            <td>1</td>
+                            <td>Ejemplo de alumno</td>
+                            <td>Ejemplo de alumno</td>
+                            <td>Ejemplo de alumno</td>
+                            <td>Ejemplo de alumno</td>
+                            <td className='settingsButton-container' >
+                                <Button className='settingsButton-td settingsButton-td--add '>
+                                    <FontAwesomeIcon icon={faUserPlus} />
+                                </Button>
+
+                            </td>
+                        </tr>
+                        <tr className='inscriptedAlumns-tr'> {/*Fila de tabla para alumno si inscripto al curso*/}
+                            <td>1</td>
+                            <td>Ejemplo de alumno</td>
+                            <td>Ejemplo de alumno</td>
+                            <td>Ejemplo de alumno</td>
+                            <td>Ejemplo de alumno</td>
+                            <td className='settingsButton-container' >
+                                <Button className='settingsButton-td settingsButton-td--eliminate '>
+                                    <FontAwesomeIcon icon={faUserXmark} />
+                                </Button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </Table>
 
 
-
-
-
+            </div>
+        </>
+    )
+}
 function Cursos(props) {
     let isLoggedIn = props.logged;
     return (
@@ -80,17 +128,45 @@ function CursosAdmin() {
                 <div className="row">
                     <div className="settings-container">
                         <div className="settings-container-child">
-                            <Button className='settings-button edit-button' onClick={() => setModalEdit(true)}>
-                                <FontAwesomeIcon icon={faPen} />
-                            </Button>
+                            <OverlayTrigger
+                                placement="left"
+                                overlay={<Tooltip id="button-tooltip-2">Editar cursos</Tooltip>}
+                            >
+                                {({ ref, ...triggerHandler }) => (
+                                    <Button className='settings-button edit-button' {...triggerHandler} onClick={() => setModalEdit(true)}>
+                                        <FontAwesomeIcon icon={faPen} ref={ref} />
+                                    </Button>
+                                )}
+                            </OverlayTrigger>
                             <ModalEdit show={modalEdit} onHide={() => setModalEdit(false)} />
                         </div>
                         <div className="settings-container-child">
-                            <Link to="/cursos/crear_curso">
-                                <Button className='settings-button create-button'>
-                                    <FontAwesomeIcon icon={faPlus} />
-                                </Button>
-                            </Link>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id="button-tooltip-2">Crear cursos</Tooltip>}
+                            >
+                                {({ ref, ...triggerHandler }) => (
+                                    <Link to="/cursos/crearCurso">
+                                        <Button {...triggerHandler} className='settings-button create-button'>
+                                            <FontAwesomeIcon icon={faPlus} ref={ref} />
+                                        </Button>
+                                    </Link>
+                                )}
+                            </OverlayTrigger>
+                        </div>
+                        <div className="settings-container-child">
+                            <OverlayTrigger
+                                placement="right"
+                                overlay={<Tooltip id="button-tooltip-2">Inscribir Alumnos</Tooltip>}
+                            >
+                                {({ ref, ...triggerHandler }) => (
+                                    <Link to="/cursos/inscripcionAlumno">
+                                        <Button {...triggerHandler} className='settings-button create-button'>
+                                            <FontAwesomeIcon icon={faUserPlus} ref={ref} />
+                                        </Button>
+                                    </Link>
+                                )}
+                            </OverlayTrigger>
                         </div>
                     </div>
                 </div>
@@ -151,8 +227,7 @@ function CursosAdmin() {
     )
 }
 
-
-function CursosPublic() {
+export function CursosPublic() {
     return (<>
         <section id="listaCursos">
             <div className="container">
@@ -215,6 +290,13 @@ export function CrearCurso() {
     return (
         <>
             <section id="crearCurso">
+                <div className="backButton-container">
+                    <Link to="/cursos">
+                        <Button type='button' className='backButton'>
+                            <FontAwesomeIcon icon={faArrowLeft} />
+                        </Button>
+                    </Link>
+                </div>
                 <div className="container">
                     <div className="row">
                         <div className="col">
@@ -222,46 +304,100 @@ export function CrearCurso() {
                         </div>
                     </div>
                     <form>
-                    <div className="row">
-                        <div className="col-12 col-lg-6">
-                            <div className="input-container">
-                                <label for="course-name-input">Nombre del curso</label>
-                                <input id="course-name-input" type="text" className="form-control" placeholder='Ingrese un nombre para el curso' required />
+                        <div className="row">
+                            <div className="col-12 col-lg-6">
+                                <div className="input-container">
+                                    <label for="course-name-input">Nombre del curso</label>
+                                    <input id="course-name-input" type="text" className="form-control" placeholder='Ingrese un nombre para el curso' required />
+                                </div>
+                            </div>
+                            <div className="col-12 col-lg-6">
+                                <div className="input-container">
+                                    <label for="course-date-input">Fecha de creacion</label>
+                                    <input id="course-date-input" type="date" className="form-control" />
+                                </div>
                             </div>
                         </div>
-                        <div className="col-12 col-lg-6">
-                            <div className="input-container">
-                                <label for="course-date-input">Fecha de creacion</label>
-                                <input id="course-date-input" type="date" className="form-control" />
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="input-container">
+                                    <label for="course-description-textarea">Descripcion</label>
+                                    <textarea className='form-control' id="course-description-textarea" placeholder='Ingrese una descripcion acerca del curso a crear..' required></textarea>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="input-container">
-                                <label for="course-description-textarea">Descripcion</label>
-                                <textarea className='form-control' id="course-description-textarea" placeholder='Ingrese una descripcion acerca del curso a crear..'></textarea>
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="input-container">
+                                    <label for="course-img-input">Imagen</label>
+                                    <input id="course-img-input" type="file" className="form-control" />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="input-container">
-                                <label for="course-img-input">Imagen</label>
-                                <input id="course-img-input" type="file" className="form-control" />
+                        <div className="row">
+                            <div className="col-12">
+                                <button type='submit' className='btn crearCurso-button'>Crear curso</button>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-12">
-                            <button type='submit' className='btn btn-primary'>Crear curso</button>
-                        </div>
-                    </div>
                     </form>
                 </div>
             </section>
         </>
     )
 }
+export function InscribirAlumno() {
+    return (
+        <>
+            <section id="inscripcionAlumnos">
+                <div className="backButton-container">
+                    <Link to="/cursos">
+                        <Button type='button' className='backButton'>
+                            <FontAwesomeIcon icon={faArrowLeft} />
+                        </Button>
+                    </Link>
+                </div>
+                <div className="container">
+                    <div className="row">
+                        <div className="col">
+                            <h1 className="main-title">Inscripcion Alumnos</h1>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+                            <div className="courseSelection-container">
+                                <h3 className="courseSelection-title">Seleccione un curso</h3>
+                                <select className="form-select">
+                                    <option value="">Seleccione un curso</option>
+                                    <option value="">Javascript</option>
+                                    <option value="">NodeJS</option>
+                                    <option value="">MySQl</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+                            <CursoTablaAlumnos />
+                        </div>
+                    </div>
+                    <p>
+                        El listado de alumnos es global, osea, todos los alumnos del sistema se listan.<br /><br />
+                        <ul>
+                            <li>La fila con fondo azul y opcion de eliminar es para los alumnos que si estan inscriptos al curso seleccionado</li><br />
+                            <li>los que tienen color por defecto y icono de añadir, son para aquellos alumnos globales.</li>
+                        </ul>
+                        El icono de añadir, tal como es, permitira añadir al alumno al curso al cual pertenece la lista en la cual se muestra.<br />
+                        <strong>Acordate de borrar este texto boludo</strong>
+                    </p>
+
+
+                </div>
+            </section>
+        </>
+    )
+}
+
+
 
 export default Cursos;

@@ -1,0 +1,114 @@
+input,
+select {
+  height: 50%;
+}
+#listadoAlumnos{
+  min-height: 100vh;
+}
+/*Titulo de la pagina*/
+.page-title {
+  margin: 80px 0px 70px 0px;
+}
+/*Creacion de alumno*/
+.createAlumn-container {
+  margin-bottom: 45px;
+  padding: 15px;
+  background-color: #003566;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+}
+#createAlumn-button{
+  background-color: var(--secondary-color) !important;
+  background-color: var(--third-color) !important;
+  color: black;
+  border: none;
+  margin: 5px;
+}
+.spaceInModal{
+  margin: 15px 0px 15px 0px;
+}
+/*Texto filtro*/
+.filter-container {
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background: rgba(242, 243, 243, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  margin-bottom: 60px;
+}
+.filter-text {
+  font-size: 1.3em;
+}
+
+
+
+.brD {
+  border-right: none !important;
+}
+
+
+
+/*Boton que contiene al icono para eliminar alumnos*/
+.settingsButton-container{
+  text-align: center;
+}
+.settingsButton-td{
+  background-color: inherit !important;
+  border: none;
+  position: relative !important;
+  top: 0px !important;
+  font-size: 1.4em;
+}
+.td-edit{
+  color: dodgerblue;
+}
+.td-edit:hover{
+  color: rgb(0, 121, 241) !important;
+}
+.td-delete{
+  color: red;
+}
+.td-delete:hover{
+  color: red !important ;
+}
+
+/*Crear Alumno*/
+#crearAlumno{
+  min-height: 90vh;
+  padding: 0px 25px;
+}
+.crearAlumno-h1{
+  margin: 150px 0px 35px 0px;
+}
+/*Crear curso pagina*/
+.input-container{
+  margin-bottom:20px;
+}
+.input-container label{
+  margin-bottom: 5px;
+}
+/*Boton de crear curso*/
+.crearAlumno-button{
+  background-color: var(--secondary-color);
+  font-size: 1.1em;
+  color: white;
+  margin-top: 10px;
+}
+.crearAlumno-button:hover{
+  background-color: var(--secondary-color);
+  color: white;
+  font-weight: bold;
+}
+.crearAlumno-button:active{
+  font-size: 1.1em;
+  color: black;
+}
+/*Tabla de listado alumnos - Header*/
+.t-head-bg{
+  background-color: var(--secondary-color);
+  text-align: center;
+  color: var(--third-color);
+}

@@ -1,0 +1,65 @@
+/*Seccion Inscripcion Alumnos*/
+#inscripcionAlumnos{
+    min-height: 90vh;
+    padding: 80px 20px;
+}
+/*H1*/
+.main-title{
+    margin: 70px 0px 105px 0px;
+}
+/*Seleccion de curso area*/
+.courseSelection-container{
+    margin: 0px auto 75px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    max-width: 450px;
+}
+.courseSelection-title{
+    margin-bottom: 10px;
+    font-size: 1.7em;
+    text-align: center;
+}
+/*Boton eliminar de la tabla*/
+.settingsButton-container{
+    text-align: center;
+}
+.settingsButton-td{
+    background-color: inherit !important;
+    border: none;
+    position: relative !important;
+    top: 0px !important;
+    font-size: 1.4em;
+}
+.settingsButton-td:hover{
+    background-color: inherit !important;
+    font-size: 1.6em; 
+    transition: 0.2s font-size;
+    color: var(--secondary-color) !important;
+
+}
+.settingsButton-td--eliminate{
+    color: var(--secondary-color);
+}
+.settingsButton-td--add{
+    color: rgb(73, 121, 2);
+}
+.settingsButton-td--add:hover{
+    background-color: inherit !important;
+    font-size: 1.6em; 
+    color: rgb(146, 224, 30) !important;
+    transition: 0.2s font-size 1s color;
+}
+.inscriptedAlumns-tr{
+   background-color: var(--registra-ya-bg);
+   color: white; 
+}
+/*Boton de añadir alumno*/
+
+@media (max-width:591px){
+    .settingsButton-td{
+        position: relative !important;
+        top: 14px !important;
+        font-size: 1.4em;
+    }
+}

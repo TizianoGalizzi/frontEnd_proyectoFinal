@@ -45,6 +45,7 @@ main {
   color: white;
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center ;
 }
 .registerNow-divContain {
   display: flex;
