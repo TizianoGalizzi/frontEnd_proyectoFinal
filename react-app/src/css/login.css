@@ -10,15 +10,16 @@
   font-family: "Kanit", Times, serif;
 }
 /*Fondo de la pagina*/
-body {
+.bodyClone {
   background: linear-gradient(to right, #5f2c82, #49a09d);
 }
 
-h1,
-p,
+
+/*
 label {
   color: white !important;
 }
+*/
 .login-container {
   max-width: 80%;
   min-width: 80%;
@@ -30,7 +31,7 @@ label {
 .loginLeft-container {
   padding: 20px 20px;
   background-color: var(--secondary);
-  background-image: url(../src/Vector\ 1Triangle3.png);
+  background-image: url(/public/1Triangle3.png);
 }
 /*Bienvenido de vuelta-texto*/
 .loginLeft-title {
@@ -53,9 +54,6 @@ label {
   font-family: "Raleway", sans-serif;
 }
 /*Form container*/
-.inputLabel {
-  margin-bottom: 3px;
-}
 .input-container {
   margin-bottom: 10px;
 }
@@ -63,6 +61,9 @@ label {
   display: flex;
   margin: 0px 0px 25px 0px;
   justify-content: space-between;
+}
+.inputLabel {
+  margin-bottom: 3px;
 }
 
 /* .f-pssw-container a{

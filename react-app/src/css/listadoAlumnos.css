@@ -112,3 +112,8 @@ select {
   text-align: center;
   color: var(--third-color);
 }
+/*Margin para el bottom de la tabla*/
+.table-listalumns{
+  margin-bottom: 250px;
+  text-align: center;
+}

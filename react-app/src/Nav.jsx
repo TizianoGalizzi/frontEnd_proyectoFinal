@@ -62,7 +62,7 @@ export function NavAdmin(props) {
                     <Link className='nav-link' to="/alumnos">Listado Alumnos</Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item href="#action4">
-                    <Link className='nav-link' to="/alumnos/crearAlumno">Crear Alumnos</Link>
+                    <Link className='nav-link' to="/alumnos/gestAlumno">Crear Alumnos</Link>
                   </NavDropdown.Item>
                 </NavDropdown>
 
@@ -100,7 +100,7 @@ export function NavPublic(props) {
             <div className="d-flex">
               <Link className='nav-link' to="/">Home</Link>
               <Link className='nav-link' to="/cursos">Cursos</Link>
-              <Link className='nav-link' to="/login"><FontAwesomeIcon icon={faRightToBracket} /> Iniciar Sesión</Link>
+              <Link className='nav-link' to="/login"><FontAwesomeIcon icon={faRightToBracket} />Iniciar Sesión</Link>
             </div>
           </Navbar.Collapse>
         </Container>
