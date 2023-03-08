@@ -4,22 +4,16 @@
   --third: #333533;
   --right-bg: #dee2e6;
 }
+
 /*Fuentes generales*/
 * {
   box-sizing: border-box;
-  font-family: "Kanit", Times, serif;
 }
 /*Fondo de la pagina*/
-.bodyClone {
+#login{
   background: linear-gradient(to right, #5f2c82, #49a09d);
+  padding: 50px 0px 50px 0px;
 }
-
-
-/*
-label {
-  color: white !important;
-}
-*/
 .login-container {
   max-width: 80%;
   min-width: 80%;
@@ -31,7 +25,6 @@ label {
 .loginLeft-container {
   padding: 20px 20px;
   background-color: var(--secondary);
-  background-image: url(/public/1Triangle3.png);
 }
 /*Bienvenido de vuelta-texto*/
 .loginLeft-title {
@@ -40,16 +33,16 @@ label {
   text-align: center;
   margin: 55px 0px 20px 0px;
 }
-.loginLeft-title h1 {
+.loginLeft-title-h1{
   font-size: 2rem;
   font-weight: bold;
-  color: var(--secondary);
+  color: var(--right-bg) !important;
   margin: 10px 0px 10px 0px;
   font-family: "Oswald", serif;
 }
-.loginLeft-title p {
+.loginLeft-title-p {
   font-size: 0.8em;
-  color: var(--third);
+  color: var(--right-bg) !important;
   opacity: 0.85;
   font-family: "Raleway", sans-serif;
 }
@@ -62,15 +55,17 @@ label {
   margin: 0px 0px 25px 0px;
   justify-content: space-between;
 }
-.inputLabel {
+.loginInputLabel {
   margin-bottom: 3px;
+  color: var(--right-bg) !important;
+}
+.form-check-label{
+  color:#f5cb5c !important;
+}
+.f-pssw-container a{
+  color: #ffbb00;
 }
 
-/* .f-pssw-container a{
-  display: inline-block;
-   height: 24px;
-  width: 172.63px; 
-} */
 
 .login-link {
   text-decoration: none;
@@ -78,7 +73,7 @@ label {
 }
 .login-link:hover {
   color: #fca311;
-  transition: 0.8s;
+  transition: 0.5s;
 }
 /*Botones de iniciar sesion*/
 .loginB {
@@ -94,8 +89,9 @@ label {
 }
 .loginB:hover {
   font-size: 1.1em;
-  transition: font-size 1s, background-color 0.3s;
+  transition: background-color 0.3s;
   background-color: #ffbb00;
+  cursor:pointer !important;
 }
 /*g-loginB = google-loginButton*/
 .g-loginB {
@@ -116,10 +112,12 @@ label {
 .register-link--p {
   text-align: center;
   margin-bottom: 200px;
+  color: var(--right-bg) !important;
 }
 .register-link:hover {
   font-size: 1.1em;
   transition: 1s;
+  color: #fca311;
 }
 @media screen AND (max-width: 421px) {
   .f-pssw-container {

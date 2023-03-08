@@ -7,19 +7,7 @@
 .main-title{
     margin: 70px 0px 105px 0px;
 }
-/*Seleccion de curso area*/
-.courseSelection-container{
-    margin: 0px auto 75px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    max-width: 450px;
-}
-.courseSelection-title{
-    margin-bottom: 10px;
-    font-size: 1.7em;
-    text-align: center;
-}
+
 /*Boton eliminar de la tabla*/
 .settingsButton-container{
     text-align: center;

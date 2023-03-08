@@ -9,18 +9,17 @@
 /*Fuentes generales*/
 * {
   box-sizing: border-box;
-  font-family: "Kanit", Times, serif;
 }
 /*Fondo de la pagina*/
-body {
+#register {
   background: linear-gradient(to right, #03045e, #00b4d8); /*#5f2c82, #49a09d*/
+  padding: 50px 0px 50px 0px;
 }
 
 h1,
 p,
 label {
   color: var(--secondary-for-light) !important;
-  font-size: 1.05em;
 }
 .register-container {
   max-width: 80%;
@@ -33,7 +32,7 @@ label {
 .registerLeft-container {
   padding: 20px 20px;
   background-color: var(--register-bg);
-  background-image: url(../src/registerWave2.svg);
+  background-image: url(/registerWave2.svg);
   background-repeat: no-repeat;
   position: relative;
 }
@@ -107,7 +106,7 @@ label {
   left: 0;
   height: 15%;
   width: 100%;
-  background-image: url(../src/invertedWave.svg);
+  background-image: url(/invertedWave.svg);
   background-size: cover;
 }
 /*Ajustes de propiedades segun tamaño de la pantalla:*/
@@ -167,7 +166,7 @@ label {
   }
   .registerLeft-container {
     padding: 150px 50px;
-    background-image: url(../src/registerWave3.svg);
+    background-image: url(/registerWave3.svg);
   }
 
   .registerRight-container {

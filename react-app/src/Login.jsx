@@ -1,8 +1,73 @@
 import './css/login.css'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Login() {
+    const [userData, setUserData] = useState({
+        nickname: "",
+        password: ""
+    })
+    const loginInputHandler = (event) => {
+        setUserData({
+            ...userData,
+            [event.target.name]: event.target.value
+        })
+    }
+    let navigate = useNavigate();
+    const loginSave = (event) => {
+        debugger
+        event.preventDefault();
+        let request = {
+            method: 'POST',
+            body: JSON.stringify(userData),
+            headers: { 'Content-type': 'application/json' }
+        }
+        fetch('http://localhost:3030/login', request)
+            .then(res => {
+                return res.json().then(body => {
+                    return {
+                        status: res.status,
+                        ok: res.ok,
+                        headers: res.headers,
+                        body: body
+                    }
+                })
+            })
+            .then(result => {
+                if (result.ok) {
+                    sessionStorage.setItem('token', result.body.token);
+                    toast.success(result.body.message, {
+                        position: "bottom-right",
+                        autoClose: 4500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+                    return navigate('/');
+                } else {
+                    return toast.error(result.body.message, {
+                        position: "bottom-right",
+                        autoClose: 4500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+                }
+            }),
+            (error) => {
+                console.log(error)
+
+            }
+    }
     return (
         <>
-        <div className="bodyClone">
             <section id="login">
                 <div className="login-container">
                     <div className="loginLeft-container">
@@ -13,23 +78,27 @@ function Login() {
                         <div className="loginLeft-form">
                             <form>
                                 <div className="input-container">
-                                    <label className="inputLabel" for="username"
-                                    >Email o nombre de usuario</label>
+                                    <label className="loginInputLabel" for="username"
+                                    >Nombre de usuario</label>
                                     <input
                                         type="text"
                                         id="username"
                                         className="form-control"
-                                        placeholder="Correo o nombre de usuario"
+                                        placeholder="Ingrese su nombre de usuario"
                                         autocomplete="off"
+                                        name='nickname'
+                                        onChange={loginInputHandler}
                                     />
                                 </div>
                                 <div className="input-container">
-                                    <label className="inputLabel" for="password">Contraseña</label>
+                                    <label className="loginInputLabel" for="password">Contraseña</label>
                                     <input
                                         type="password"
                                         id="password"
                                         className="form-control"
                                         placeholder="Ingrese su contraseña"
+                                        name='password'
+                                        onChange={loginInputHandler}
                                     />
                                 </div>
 
@@ -40,7 +109,7 @@ function Login() {
                                             type="checkbox"
                                             value=""
                                             id="flexCheckChecked"
-                                            checked
+                                            
                                         />
                                         <label className="form-check-label" for="flexCheckChecked">
                                             Remember me
@@ -51,7 +120,7 @@ function Login() {
                                     </div>
                                 </div>
                                 <div className="signIn-button">
-                                    <button className="loginB" type="submit">Iniciar sesión</button>
+                                    <button onClick={loginSave} className="loginB" type="submit">Iniciar sesión</button>
                                 </div>
 
                                 <div className="signIn-button--g">
@@ -62,16 +131,17 @@ function Login() {
                             </form>
                             <p className="register-link--p">
                                 No tienes una cuenta?
-                                <a className="register-link" href="register.html">Registrate</a>
+                                <Link to="/register" className="register-link"> Registrate</Link>
                             </p>
                         </div>
                     </div>
                     <div className="loginRight-container">
-                        <img src="/src/characterSlider.svg" alt="loginImg" />
+                        <img src="/characterSlider.svg" alt="loginImg" />
                     </div>
                 </div>
+                <ToastContainer/>
             </section>
-        </div>
+            
         </>
     )
 }

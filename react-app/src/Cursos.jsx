@@ -1,8 +1,10 @@
 import './css/style.css';
 import './css/cursos.css';
 import './css/inscAlumnos.css';
+import NavAdmin, { NavPublic } from './Nav';
+import Footer from './Footer';
 import React, { useState, useEffect } from 'react';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
@@ -14,8 +16,47 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faPlus, faArrowLeft, faUserPlus, faUserXmark, faPenToSquare, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
-
+let token = sessionStorage.getItem('token')
 function AlumnoTablacursos(props) {
+    const [DeleteAlumnModal, setDeleteAlumnModal] = useState(false);
+    const [Alumns, setAlumns] = useState([])
+    const [Stop, setStop] = useState(false)
+    let fetchMethod = {
+        method: 'GET',
+        headers: {
+            "authorization": sessionStorage.getItem('token')
+        }
+    }
+    let token = sessionStorage.getItem('token')
+    useEffect(() => {
+        fetch('http://localhost:3030/alumnos', fetchMethod)
+            .then(res => {
+                return res.json().then(body => {
+                    return {
+                        status: res.status,
+                        ok: res.ok,
+                        headers: res.headers,
+                        body: body
+                    }
+                })
+            })
+            .then(result => {
+                if (result.ok) {
+                    setAlumns(result.body)
+                } else {
+                    toast.error(result.body.message, {
+                        position: "bottom-right",
+                        autoClose: 4500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+                }
+            })
+    }, [Stop])
     return (
         <>
             <div>
@@ -31,12 +72,12 @@ function AlumnoTablacursos(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr> {/*Fila de tabla para curso no inscripto al curso*/}
+                        <tr> {/*Fila de tabla para alumno no inscripto al curso*/}
                             <td>1</td>
-                            <td>Ejemplo de curso</td>
-                            <td>Ejemplo de curso</td>
-                            <td>Ejemplo de curso</td>
-                            <td>Ejemplo de curso</td>
+                            <td>Ejemplo de alumno</td>
+                            <td>Ejemplo de alumno</td>
+                            <td>Ejemplo de alumno</td>
+                            <td>Ejemplo de alumno</td>
                             <td className='settingsButton-container' >
                                 <Button className='settingsButton-td settingsButton-td--add '>
                                     <FontAwesomeIcon icon={faUserPlus} />
@@ -44,12 +85,12 @@ function AlumnoTablacursos(props) {
 
                             </td>
                         </tr>
-                        <tr className='inscriptedCourses-tr'> {/*Fila de tabla para curso si inscripto al curso*/}
+                        <tr className='inscriptedCourses-tr'> {/*Fila de tabla para alumno si inscripto al curso*/}
                             <td>1</td>
-                            <td>Ejemplo de curso</td>
-                            <td>Ejemplo de curso</td>
-                            <td>Ejemplo de curso</td>
-                            <td>Ejemplo de curso</td>
+                            <td>Ejemplo de alumno</td>
+                            <td>Ejemplo de alumno</td>
+                            <td>Ejemplo de alumno</td>
+                            <td>Ejemplo de alumno</td>
                             <td className='settingsButton-container' >
                                 <Button className='settingsButton-td settingsButton-td--eliminate '>
                                     <FontAwesomeIcon icon={faUserXmark} />
@@ -58,17 +99,74 @@ function AlumnoTablacursos(props) {
                         </tr>
                     </tbody>
                 </Table>
-
-
             </div>
         </>
     )
 }
 
 function ListaCursos() {
-    const [DeleteCourseModal, setDeleteCourseModal] = useState(false);
     const [Courses, setCourses] = useState([])
     const [Stop, setStop] = useState(false)
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [courseData, setCourseData] = useState({})
+
+    const deleteForever = function () {
+        let request = {
+            method: 'DELETE'
+        }
+        fetch(`http://localhost:3030/cursos/${courseData.id}`, request)
+            .then(res => {
+                return res.json().then(body => {
+                    return {
+                        status: res.status,
+                        ok: res.ok,
+                        headers: res.headers,
+                        body: body
+                    }
+                })
+            })
+            .then(result => {
+                if (result.ok) {
+                    toast.success(result.body.message, {
+                        position: "bottom-right",
+                        autoClose: 4500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+
+                } else {
+                    toast.error(result.body.message, {
+                        position: "bottom-right",
+                        autoClose: 4500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+
+                }
+            }),
+            (error) => {
+                console.log(error)
+
+            }
+    }
+
+    const showModal = (cursoData) => {
+        setDeleteModal(true);
+        setCourseData(cursoData)
+    }
+    const handleClose = () => {
+        setDeleteModal(false)
+    }
+
+
     let fetchMethod = {
         method: 'GET'
     }
@@ -109,21 +207,21 @@ function ListaCursos() {
                                     <td className='listCourses-td'>{curso.año} </td>
                                     <td className='listCourses-td'>{curso.activo} </td>
                                     <td className='settingsButton-container'>
-                                        <Link to={`/cursos/gestCurso/${curso.id}`}>
+                                        <Link to={`/cursos/gestCurso/${curso.id}?nombre=${curso.nombre}`}>
                                             <Button className='settingsButton-td td-edit'>
                                                 <FontAwesomeIcon icon={faPenToSquare} />
                                             </Button>
                                         </Link>
                                     </td>
                                     <td className='settingsButton-container'>
-                                        <Link to={`/cursos/gestAlumno/${curso.id}`}>
+                                        <Link to={`/cursos/inscAlumno/${curso.id}`}>
                                             <Button className='settingsButton-td td-edit'>
                                                 <FontAwesomeIcon icon={faUserPlus} />
                                             </Button>
                                         </Link>
                                     </td>
                                     <td className='settingsButton-container' >
-                                        <Button onClick={() => setDeleteCourseModal(true)} className='settingsButton-td td-delete'>
+                                        <Button onClick={() => showModal(curso)} className='settingsButton-td td-delete'>
                                             <FontAwesomeIcon icon={faCircleXmark} />
                                         </Button>
 
@@ -133,17 +231,51 @@ function ListaCursos() {
                         })}
                     </tbody>
                 </Table>
+                <Modal
+                    show={deleteModal}
+                    onHide={handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Eliminar curso</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Seguro que deseas eliminar al curso <b>{courseData.nombre} </b>?.
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button onClick={() => deleteForever()} variant="danger">Eliminar</Button>
+                    </Modal.Footer>
+                </Modal>
+                <ToastContainer />
             </div>
         </>
     )
 }
-function Cursos(props) {
-    let isLoggedIn = props.logged;
-    return (
-        <>
-            {isLoggedIn ? (<CursosAdmin />) : (<CursosPublic />)}
-        </>
-    )
+function Cursos() {
+    document.title = 'Cursos'
+    if (token) {
+        return (
+            <>
+                <NavAdmin />
+                <CursosAdmin />
+                <Footer />
+            </>
+        )
+    } else {
+        return (
+            <>
+                <NavPublic />
+                <CursosPublic />
+                <Footer />
+            </>
+        )
+    }
+
+
 }
 function CursosAdmin() {
     return (<>
@@ -207,6 +339,7 @@ export function CursosPublic() {
                 <div className="row">
                     <div className="grid-container">
                         {Courses.map((curso, index) => {
+                    
                             return (
                                 <div key={index} className="course-card">
                                     <div className="img-container">
@@ -231,6 +364,7 @@ export function CursosPublic() {
     </>)
 }
 export function GestCurso() {
+    
     const [GestCurso, setGestCurso] = useState({
         nombre: "",
         descripcion: "",
@@ -238,15 +372,12 @@ export function GestCurso() {
         año: "",
         activo: ""
     })
+    const [params] = useSearchParams();
+    let name = params.get('nombre')
     const idA = useParams();
     const navigate = useNavigate();
+    idA.id ? document.title = 'Modificar curso' : document.title='Crear curso'
 
-    const gestInputHandler = (event) => {
-        setGestCurso({
-            ...GestCurso,
-            [event.target.name]: event.target.value
-        })
-    }
     const postFetch = (request) => {
         return fetch(`http://localhost:3030/cursos/${idA.id}`, request)
             .then(res => {
@@ -335,20 +466,26 @@ export function GestCurso() {
 
             }
     }
-
+    const gestInputHandler = (event) => {
+        setGestCurso({
+            ...GestCurso,
+            [event.target.name]: event.target.value
+        })
+    }
     const gestSave = (event) => {
         event.preventDefault();
         GestCurso.activo = "1"
         let request = {
             method: idA.id ? 'POST' : 'PUT',
             body: JSON.stringify(GestCurso),
-            headers: { 'Content-type': 'application/json' }
+            headers: { 'Content-type': 'application/json', 'authorization': sessionStorage.getItem('token') }
         }
 
         idA.id ? postFetch(request) : putFetch(request)
     }
     return (
         <>
+            <NavAdmin />
             <section id="gestCurso">
                 <div className="backButton-container">
                     <Link to="/cursos">
@@ -360,7 +497,7 @@ export function GestCurso() {
                 <div className="container">
                     <div className="row">
                         <div className="col">
-                            <h1 className='gestCurso-h1'>{idA.id ? `Modificar curso id ${idA.id}` : `Crear curso`} </h1>
+                            <h1 className='gestCurso-h1'>{idA.id ? `Modificar curso ${name}` : `Crear curso`} </h1>
                         </div>
                     </div>
                     <form>
@@ -402,12 +539,157 @@ export function GestCurso() {
                     </form>
                 </div>
             </section>
+            <Footer />
         </>
     )
 }
 export function InscribirAlumno() {
+    const [Alumns, setAlumns] = useState([])
+    const [inscriptedAlumns, setInscriptedAlumns] = useState([])
+    const [Stop, setStop] = useState(false)
+    const navigate = useNavigate();
+    const params = useParams()
+    let idA = useParams();
+
+
+    {/*
+    const [deleteModal, setDeleteModal] = useState(false)
+    const [alumnoData, setAlumnoData] = useState({})
+    const deleteForever = function () {
+        let request = {
+            method: 'DELETE'
+        }
+        fetch(`http://localhost:3030/alumnos/${alumnoData.id}`, request)
+            .then(res => {
+                return res.json().then(body => {
+                    return {
+                        status: res.status,
+                        ok: res.ok,
+                        headers: res.headers,
+                        body: body
+                    }
+                })
+            })
+            .then(result => {
+                if (result.ok) {
+                    toast.success(result.body.message, {
+                        position: "bottom-right",
+                        autoClose: 4500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+                    setStop(true)
+                } else {
+                    toast.error(result.body.message, {
+                        position: "bottom-right",
+                        autoClose: 4500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+
+                }
+            }),
+            (error) => {
+                console.log(error)
+
+            }
+    }
+    const showDeleteModal = (datosAlumno) => {
+        setDeleteModal(true);
+        setAlumnoData(datosAlumno)
+    }
+    const closeDeleteModal = () => {
+        setDeleteModal(false)
+    }
+     */}
+    let getMethod = {
+        method: 'GET',
+        headers: {
+            "authorization": sessionStorage.getItem('token')
+        }
+    }
+    let postMethod = {
+        method: 'POST',
+        headers: {
+            "authorization": sessionStorage.getItem('token')
+        }
+    }
+    useEffect(() => {
+        fetch('http://localhost:3030/alumnos', getMethod)
+            .then(res => {
+                return res.json().then(body => {
+                    return {
+                        status: res.status,
+                        ok: res.ok,
+                        headers: res.headers,
+                        body: body
+                    }
+                })
+            })
+            .then(result => {
+                if (result.ok) {
+                    setAlumns(result.body)
+                } else {
+                    toast.error(result.body.message, {
+                        position: "bottom-right",
+                        autoClose: 4500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+                }
+            })
+            .then(res => {
+                fetch(`http://localhost:3030/cursos/inscAlumno/${idA.id}`, postMethod)
+                    .then(res => {
+                        return res.json().then(body => {
+                            return {
+                                status: res.status,
+                                ok: res.ok,
+                                headers: res.headers,
+                                body: body
+                            }
+                        })
+                    })
+                    .then(result => {
+                        if (result.ok) {
+                            let dataLength = [result.body].length;
+                            for (let i = -1; i < dataLength; i++) {
+                                if (i < 0) {
+                                    continue
+                                } else {
+                                    setInscriptedAlumns(result.body[i].id)
+                                }
+                            }
+                        } else {
+                            toast.error(result.body.message, {
+                                position: "bottom-right",
+                                autoClose: 4500,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "light",
+                            })
+                        }
+                    })
+            })
+    }, [Stop])
     return (
         <>
+            <NavAdmin/>
             <section id="inscripcionAlumnos">
                 <div className="backButton-container">
                     <Link to="/cursos">
@@ -419,41 +701,70 @@ export function InscribirAlumno() {
                 <div className="container">
                     <div className="row">
                         <div className="col">
-                            <h1 className="main-title">Inscripcion cursos</h1>
+                            <h1 className="main-title">Inscripcion alumnos</h1>
                         </div>
                     </div>
+
                     <div className="row">
                         <div className="col">
-                            <div className="courseSelection-container">
-                                <h3 className="courseSelection-title">Seleccione un curso</h3>
-                                <select className="form-select">
-                                    <option value="">Seleccione un curso</option>
-                                    <option value="">Javascript</option>
-                                    <option value="">NodeJS</option>
-                                    <option value="">MySQl</option>
-                                </select>
-                            </div>
+                            <Table responsive="sm" bordered>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>DNI</th>
+                                        <th>ID_usuario</th>
+                                        <th>Accion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {Alumns.map((alumno, index) => {
 
+                                        return (
+                                            <tr key={index} >
+                                                <td>{alumno.id}</td>
+                                                <td>{alumno.nombre}</td>
+                                                <td>{alumno.apellido}</td>
+                                                <td>{alumno.dni}</td>
+                                                <td>{alumno.id_usuario}</td>
+                                                <td className='settingsButton-container' >
+                                                    <Button className='settingsButton-td settingsButton-td--add '>
+                                                        <FontAwesomeIcon icon={faUserPlus} />
+                                                    </Button>
+                                                    <Button className='settingsButton-td settingsButton-td--eliminate '>
+                                                        <FontAwesomeIcon icon={faUserXmark} />
+                                                    </Button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+
+                                    {inscriptedAlumns.map((alumnoIns, index) => {
+                                        return (
+                                            <tr key={index} className='inscriptedCourses-tr'> {/*Fila de tabla para alumno si inscripto al curso*/}
+                                                <td>LOS OTROS RRR</td>
+                                                <td>{alumnoIns.id}</td>
+                                                <td>{alumnoIns.nombre}</td>
+                                                <td>{alumnoIns.apellido}</td>
+                                                <td>{alumnoIns.dni}</td>
+                                                <td>{alumnoIns.id_usuario}</td>
+                                                <td className='settingsButton-container' >
+                                                    <Button className='settingsButton-td settingsButton-td--eliminate '>
+                                                        <FontAwesomeIcon icon={faUserXmark} />
+                                                    </Button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </Table>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col">
-                            <CursoTablacursos />
-                        </div>
-                    </div>
-                    <p>
-                        El listado de cursos es global, osea, todos los cursos del sistema se listan.<br /><br />
-                        <ul>
-                            <li>La fila con fondo azul y opcion de eliminar es para los cursos que si estan inscriptos al curso seleccionado</li><br />
-                            <li>los que tienen color por defecto y icono de añadir, son para aquellos cursos globales.</li>
-                        </ul>
-                        El icono de añadir, tal como es, permitira añadir al curso al curso al cual pertenece la lista en la cual se muestra.<br />
-                        <strong>Acordate de borrar este texto boludo</strong>
-                    </p>
-
 
                 </div>
             </section>
+            <Footer />
         </>
     )
 }

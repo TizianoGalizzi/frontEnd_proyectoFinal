@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-// Navbar
+import { Link, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import jwt_decode from "jwt-decode";
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -11,19 +11,12 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightToBracket } from '@fortawesome/free-solid-svg-icons'
 
-function Nav_Bar(props) {
-  let isLoggedIn = props.logged;
+let token = sessionStorage.getItem('token')
+export default function NavAdmin(props) {
+  let decoded = jwt_decode(token);
+  const quitSession = () => {
+    return sessionStorage.clear()
 
-  return (
-    <>
-      {isLoggedIn ? (<NavAdmin />) : (<NavPublic />)}
-    </>
-  )
-}
-
-export function NavAdmin(props) {
-  let user = {
-    name: "Teasy"
   }
   return (
     <>
@@ -50,10 +43,7 @@ export function NavAdmin(props) {
                     <Link className='nav-link' to="/cursos">Cursos</Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item href="#">
-                    <Link className='nav-link' to="/cursos/inscripcionAlumno">Inscribir Alumnos</Link>
-                  </NavDropdown.Item>
-                  <NavDropdown.Item href="#">
-                    <Link className='nav-link' to="/cursos/crearCurso">Crear Curso</Link>
+                    <Link className='nav-link' to="/cursos/gestCurso">Crear Curso</Link>
                   </NavDropdown.Item>
                 </NavDropdown>
 
@@ -66,9 +56,9 @@ export function NavAdmin(props) {
                   </NavDropdown.Item>
                 </NavDropdown>
 
-                <NavDropdown title={user.name} id="navbarScrollingDropdown">
+                <NavDropdown title={decoded.nickname} id="navbarScrollingDropdown">
                   <NavDropdown.Item href="#action4">
-                    <Button variant="danger">Cerrar sesion</Button>{' '}
+                    <Button onClick={() => quitSession} variant="danger">Cerrar sesion</Button>{' '}
                   </NavDropdown.Item>
                 </NavDropdown>
               </div>
@@ -110,4 +100,3 @@ export function NavPublic(props) {
   )
 }
 
-export default Nav_Bar;
