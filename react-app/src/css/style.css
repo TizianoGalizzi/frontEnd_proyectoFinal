@@ -10,10 +10,9 @@
 }
 *{
     font-family: 'Open Sans',sans-serif; 
+    box-sizing: border-box !important;
  }
-body{
-    box-sizing: border-box;
-}
+
 h1{font-size: 2.5em;}
 p{font-size: 1.15em}
 li{list-style: none;}

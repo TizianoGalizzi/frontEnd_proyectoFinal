@@ -23,7 +23,6 @@
     background-color: inherit !important;
     font-size: 1.6em; 
     transition: 0.2s font-size;
-    color: var(--secondary-color) !important;
 
 }
 .settingsButton-td--eliminate{

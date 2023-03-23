@@ -3,6 +3,7 @@ import './css/cursos.css';
 import './css/inscAlumnos.css';
 import NavAdmin, { NavPublic } from './Nav';
 import Footer from './Footer';
+import jwt_decode from "jwt-decode";
 import React, { useState, useEffect } from 'react';
 import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
@@ -16,93 +17,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faPlus, faArrowLeft, faUserPlus, faUserXmark, faPenToSquare, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
-let token = sessionStorage.getItem('token')
-function AlumnoTablacursos(props) {
-    const [DeleteAlumnModal, setDeleteAlumnModal] = useState(false);
-    const [Alumns, setAlumns] = useState([])
-    const [Stop, setStop] = useState(false)
-    let fetchMethod = {
-        method: 'GET',
-        headers: {
-            "authorization": sessionStorage.getItem('token')
-        }
-    }
-    let token = sessionStorage.getItem('token')
-    useEffect(() => {
-        fetch('http://localhost:3030/alumnos', fetchMethod)
-            .then(res => {
-                return res.json().then(body => {
-                    return {
-                        status: res.status,
-                        ok: res.ok,
-                        headers: res.headers,
-                        body: body
-                    }
-                })
-            })
-            .then(result => {
-                if (result.ok) {
-                    setAlumns(result.body)
-                } else {
-                    toast.error(result.body.message, {
-                        position: "bottom-right",
-                        autoClose: 4500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-                }
-            })
-    }, [Stop])
-    return (
-        <>
-            <div>
-                <Table responsive="sm" striped bordered>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>DNI</th>
-                            <th>ID_usuario</th>
-                            <th>Accion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr> {/*Fila de tabla para alumno no inscripto al curso*/}
-                            <td>1</td>
-                            <td>Ejemplo de alumno</td>
-                            <td>Ejemplo de alumno</td>
-                            <td>Ejemplo de alumno</td>
-                            <td>Ejemplo de alumno</td>
-                            <td className='settingsButton-container' >
-                                <Button className='settingsButton-td settingsButton-td--add '>
-                                    <FontAwesomeIcon icon={faUserPlus} />
-                                </Button>
 
-                            </td>
-                        </tr>
-                        <tr className='inscriptedCourses-tr'> {/*Fila de tabla para alumno si inscripto al curso*/}
-                            <td>1</td>
-                            <td>Ejemplo de alumno</td>
-                            <td>Ejemplo de alumno</td>
-                            <td>Ejemplo de alumno</td>
-                            <td>Ejemplo de alumno</td>
-                            <td className='settingsButton-container' >
-                                <Button className='settingsButton-td settingsButton-td--eliminate '>
-                                    <FontAwesomeIcon icon={faUserXmark} />
-                                </Button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </Table>
-            </div>
-        </>
-    )
-}
+
 
 function ListaCursos() {
     const [Courses, setCourses] = useState([])
@@ -112,7 +28,8 @@ function ListaCursos() {
 
     const deleteForever = function () {
         let request = {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: { 'authorization': sessionStorage.getItem('token') }
         }
         fetch(`http://localhost:3030/cursos/${courseData.id}`, request)
             .then(res => {
@@ -168,7 +85,8 @@ function ListaCursos() {
 
 
     let fetchMethod = {
-        method: 'GET'
+        method: 'GET',
+        headers: { 'authorization': sessionStorage.getItem('token') }
     }
 
     useEffect(() => {
@@ -207,14 +125,14 @@ function ListaCursos() {
                                     <td className='listCourses-td'>{curso.año} </td>
                                     <td className='listCourses-td'>{curso.activo} </td>
                                     <td className='settingsButton-container'>
-                                        <Link to={`/cursos/gestCurso/${curso.id}?nombre=${curso.nombre}`}>
+                                        <Link to={`/cursos/gestCurso/${curso.id}?nombre=${curso.nombre}&descripcion=${curso.descripcion}&imagen=${curso.imagen}&año=${curso.año}`}>
                                             <Button className='settingsButton-td td-edit'>
                                                 <FontAwesomeIcon icon={faPenToSquare} />
                                             </Button>
                                         </Link>
                                     </td>
                                     <td className='settingsButton-container'>
-                                        <Link to={`/cursos/inscAlumno/${curso.id}`}>
+                                        <Link to={`/cursos/inscAlumno/${curso.id}?nombre=${curso.nombre} `}>
                                             <Button className='settingsButton-td td-edit'>
                                                 <FontAwesomeIcon icon={faUserPlus} />
                                             </Button>
@@ -247,7 +165,9 @@ function ListaCursos() {
                         <Button variant="secondary" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button onClick={() => deleteForever()} variant="danger">Eliminar</Button>
+                        <a href='/cursos'>
+                            <Button onClick={() => deleteForever()} variant="danger">Eliminar</Button>
+                        </a>
                     </Modal.Footer>
                 </Modal>
                 <ToastContainer />
@@ -255,16 +175,37 @@ function ListaCursos() {
         </>
     )
 }
+
 function Cursos() {
+    debugger
+    const [authToken, setAuthToken] = useState("")
+    useEffect(() => {
+        if (sessionStorage.getItem('token')) {
+            setAuthToken(sessionStorage.getItem('token'))
+        } else {
+            setAuthToken("")
+        }
+    }, [authToken])
     document.title = 'Cursos'
-    if (token) {
-        return (
-            <>
-                <NavAdmin />
-                <CursosAdmin />
-                <Footer />
-            </>
-        )
+    if (authToken != "") {
+        let decoded = jwt_decode(authToken)
+        if (decoded.rol == 'admin') {
+            return (
+                <>
+                    <NavAdmin nickname={decoded.nickname} />
+                    <CursosAdmin />
+                    <Footer />
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <NavPublic token={authToken} nickname={decoded.nickname} />
+                    <CursosPublic />
+                    <Footer />
+                </>
+            )
+        }
     } else {
         return (
             <>
@@ -275,6 +216,90 @@ function Cursos() {
         )
     }
 
+
+}
+function CursosPublic() {
+    const [Courses, setCourses] = useState([])
+    const [Stop, setStop] = useState(false)
+    const imageconverter = (img) => {
+        let imgCut = img.substr(10,img.length);
+        let barra = "/";
+        let imgFixed = barra.concat(imgCut)
+        return imgFixed
+    }
+    useEffect(() => {
+        fetch('http://localhost:3030/cursos')
+            .then(resp => resp.json())
+            .then(resp => {
+                setCourses(resp)
+            })
+    }, [Stop])
+    return (<>
+        <section id="listaCursos">
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <h1 className="main-title-h1">Cursos disponibles</h1>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="grid-container">
+                        {Courses.map((curso, index) => {
+                            { var imagen = imageconverter(curso.imagen) }
+                            return (
+                                <div key={index} className="course-card">
+                                    <div className="img-container">
+                                        <Link to={ `/cursos/${curso.id}?nombre=${curso.nombre}`}><img className="course-img" src={imagen} alt={curso.nombre} /></Link>
+                                    </div>
+                                    <div className="cardText-container">
+                                        <h3>{curso.nombre} </h3>
+                                        <p>
+                                            {curso.descripcion}
+                                        </p>
+                                    </div>
+                                </div>
+                            )
+
+                        })}
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </>)
+}
+export function CursoSeccion(){
+    const [authToken, setAuthToken] = useState("")
+    let [param] = useSearchParams();
+    document.title = `Curso ${param.get('nombre')} `;
+    let navigate = useNavigate()
+    useEffect(() => {
+        if (sessionStorage.getItem('token')) {
+            setAuthToken(sessionStorage.getItem('token'))
+        } else {
+            setAuthToken("")
+        }
+    }, [authToken])
+    if (authToken != "") {
+        let decoded = jwt_decode(authToken)
+        if (decoded.rol == 'alumno') {
+            return (
+                <>
+                    <NavPublic token={authToken} nickname={decoded.nickname} />
+                    <section id="seccionCurso">
+                        <h1>{param.get('nombre')}</h1>
+                        
+                    </section>
+                    <Footer />
+                </>
+            )
+        }
+    } else {
+        return (
+           navigate("/login")
+        )
+    }
 
 }
 function CursosAdmin() {
@@ -313,58 +338,7 @@ function CursosAdmin() {
     </>
     )
 }
-
-export function CursosPublic() {
-    const [Courses, setCourses] = useState([])
-    const [Stop, setStop] = useState(false)
-    let fetchMethod = {
-        method: 'GET'
-    }
-
-    useEffect(() => {
-        fetch('http://localhost:3030/cursos', fetchMethod)
-            .then(resp => resp.json())
-            .then(resp => {
-                setCourses(resp)
-            })
-    }, [Stop])
-    return (<>
-        <section id="listaCursos">
-            <div className="container">
-                <div className="row">
-                    <div className="col">
-                        <h1 className="main-title-h1">Cursos disponibles</h1>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="grid-container">
-                        {Courses.map((curso, index) => {
-                    
-                            return (
-                                <div key={index} className="course-card">
-                                    <div className="img-container">
-                                        <a href="#"><img className="course-img" src={curso.imagen} alt={curso.nombre} /></a>
-                                    </div>
-                                    <div className="cardText-container">
-                                        <h3>{curso.nombre} </h3>
-                                        <p>
-                                            {curso.descripcion}
-                                        </p>
-                                    </div>
-                                </div>
-                            )
-
-                        })}
-
-
-                    </div>
-                </div>
-            </div>
-        </section>
-    </>)
-}
 export function GestCurso() {
-    
     const [GestCurso, setGestCurso] = useState({
         nombre: "",
         descripcion: "",
@@ -372,13 +346,37 @@ export function GestCurso() {
         año: "",
         activo: ""
     })
+    const [authToken, setAuthToken] = useState("")
+
+    //Extraemos datos de los queryParams:
     const [params] = useSearchParams();
-    let name = params.get('nombre')
+    let nombre = params.get('nombre');
+    let añoCreacion = params.get('año');
+    let imagen = params.get('imagen')
+    let descripcion = params.get('descripcion')
+
     const idA = useParams();
     const navigate = useNavigate();
-    idA.id ? document.title = 'Modificar curso' : document.title='Crear curso'
+    useEffect(() => {
+        if (sessionStorage.getItem('token')) {
+            setAuthToken(sessionStorage.getItem('token'))
+            setGestCurso({
+                nombre: nombre,
+                descripcion: descripcion,
+                imagen: imagen,
+                año: añoCreacion,
+                activo: ""
+            })
+        } else {
+            setAuthToken("")
+        }
+    }, [authToken]);
+
+    idA.id ? document.title = 'Modificar curso' : document.title = 'Crear curso'
+
 
     const postFetch = (request) => {
+        debugger
         return fetch(`http://localhost:3030/cursos/${idA.id}`, request)
             .then(res => {
                 return res.json().then(body => {
@@ -392,9 +390,9 @@ export function GestCurso() {
             })
             .then(result => {
                 if (result.ok) {
-                    toast.success(`Curso modificado correctamente! `, {
+                    toast.success(result.body.message, {
                         position: "bottom-right",
-                        autoClose: 4500,
+                        autoClose: 6500,
                         hideProgressBar: false,
                         closeOnClick: true,
                         pauseOnHover: true,
@@ -402,11 +400,12 @@ export function GestCurso() {
                         progress: undefined,
                         theme: "light",
                     })
-                    return navigate('/cursos');
+                    navigate('/cursos');
+
                 } else {
-                    toast.error('Error en la modificacion del curso.', {
+                    toast.error(result.body.message, {
                         position: "bottom-right",
-                        autoClose: 4500,
+                        autoClose: 6500,
                         hideProgressBar: false,
                         closeOnClick: true,
                         pauseOnHover: true,
@@ -414,7 +413,7 @@ export function GestCurso() {
                         progress: undefined,
                         theme: "light",
                     })
-                    return navigate('/cursos')
+                    navigate('/cursos')
                 }
             }),
             (error) => {
@@ -436,9 +435,10 @@ export function GestCurso() {
             })
             .then(result => {
                 if (result.ok) {
-                    toast.success('Curso creado con exito!', {
+                    navigate('/cursos');
+                    toast.success(result.body.message, {
                         position: "bottom-right",
-                        autoClose: 4500,
+                        autoClose: 6500,
                         hideProgressBar: false,
                         closeOnClick: true,
                         pauseOnHover: true,
@@ -446,11 +446,12 @@ export function GestCurso() {
                         progress: undefined,
                         theme: "light",
                     })
-                    return navigate('/cursos');
+
                 } else {
-                    toast.error('Error en la creacion del curso.', {
+                    navigate('/cursos')
+                    toast.error(result.body.message, {
                         position: "bottom-right",
-                        autoClose: 4500,
+                        autoClose: 6500,
                         hideProgressBar: false,
                         closeOnClick: true,
                         pauseOnHover: true,
@@ -458,7 +459,7 @@ export function GestCurso() {
                         progress: undefined,
                         theme: "light",
                     })
-                    return navigate('/cursos')
+
                 }
             }),
             (error) => {
@@ -483,83 +484,158 @@ export function GestCurso() {
 
         idA.id ? postFetch(request) : putFetch(request)
     }
-    return (
-        <>
-            <NavAdmin />
-            <section id="gestCurso">
-                <div className="backButton-container">
-                    <Link to="/cursos">
-                        <Button type='button' className='backButton'>
-                            <FontAwesomeIcon icon={faArrowLeft} />
-                        </Button>
-                    </Link>
-                </div>
-                <div className="container">
-                    <div className="row">
-                        <div className="col">
-                            <h1 className='gestCurso-h1'>{idA.id ? `Modificar curso ${name}` : `Crear curso`} </h1>
-                        </div>
+    if (authToken != "") {
+        let decoded = jwt_decode(authToken)
+        return (
+            <>
+                <NavAdmin nickname={decoded.nickname} />
+                <section id="gestCurso">
+                    <div className="backButton-container">
+                        <Link to="/cursos">
+                            <Button type='button' className='backButton'>
+                                <FontAwesomeIcon icon={faArrowLeft} />
+                            </Button>
+                        </Link>
                     </div>
-                    <form>
+                    <div className="container">
                         <div className="row">
-                            <div className="col-12 col-lg-6">
-                                <div className="input-container">
-                                    <label for="course-name-input">Nombre del curso</label>
-                                    <input id="course-name-input" onChange={gestInputHandler} autoComplete='off' name="nombre" type="text" className="form-control" placeholder='Ingrese un nombre para el curso' required />
-                                </div>
-                            </div>
-                            <div className="col-12 col-lg-6">
-                                <div className="input-container">
-                                    <label for="course-date-input">Año de creacion</label>
-                                    <input id="course-date-input" autoComplete='off' onChange={gestInputHandler} name="año" type="number" className="form-control" />
-                                </div>
+                            <div className="col">
+                                <h1 className='gestCurso-h1'>{idA.id ? `Modificar curso ${nombre}` : `Crear curso`} </h1>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="input-container">
-                                    <label for="course-description-textarea">Descripcion</label>
-                                    <textarea className='form-control' autoComplete='off' onChange={gestInputHandler} name="descripcion" id="course-description-textarea" placeholder='Ingrese una descripcion sobre que trata el curso' required></textarea>
+                        <form>
+                            <div className="row">
+                                <div className="col-12 col-lg-6">
+                                    <div className="input-container">
+                                        <label for="course-name-input">Nombre del curso</label>
+                                        <input id="course-name-input" onChange={gestInputHandler} value={GestCurso.nombre} autoComplete='off' name="nombre" type="text" className="form-control" placeholder='Ingrese un nombre para el curso' required />
+                                    </div>
+                                </div>
+                                <div className="col-12 col-lg-6">
+                                    <div className="input-container">
+                                        <label for="course-date-input">Año de creacion</label>
+                                        <input id="course-date-input" autoComplete='off' onChange={gestInputHandler} value={GestCurso.año} name="año" type="number" className="form-control" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="input-container">
-                                    <label for="course-img-input">Imagen</label>
-                                    <input id="course-img-input" autoComplete='off' onChange={gestInputHandler} name="imagen" type="file" className="form-control" />
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="input-container">
+                                        <label for="course-description-textarea">Descripcion</label>
+                                        <textarea className='form-control' autoComplete='off' onChange={gestInputHandler} value={GestCurso.descripcion} name="descripcion" id="course-description-textarea" placeholder='Ingrese una descripcion sobre que trata el curso' required></textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-12">
-                                <button type='submit' onClick={gestSave} className='btn gestCurso-button'>{idA.id ? `Guardar Cambios` : `Crear Curso`} </button>
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="input-container">
+                                        <label for="course-img-input">Imagen</label>
+                                        <input id="course-img-input" autoComplete='off' onChange={gestInputHandler} name="imagen" type="file" className="form-control" />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
-            </section>
-            <Footer />
-        </>
-    )
+                            <div className="row">
+                                <div className="col-12">
+                                    <button type='submit' onClick={gestSave} className='btn gestCurso-button'>{idA.id ? `Guardar Cambios` : `Crear Curso`} </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+                <Footer />
+            </>
+        )
+
+
+
+
+    }
 }
 export function InscribirAlumno() {
+    document.title = 'InscripcionAlumnos'
+    const [refresh, setRefresh] = useState(0)
+    const [inscripted, setInscripted] = useState([])
     const [Alumns, setAlumns] = useState([])
-    const [inscriptedAlumns, setInscriptedAlumns] = useState([])
-    const [Stop, setStop] = useState(false)
+    const [signUp, setSignUp] = useState({
+        data: []
+    })
+    const [dropAlumns, setDropAlumns] = useState({
+        data: []
+    })
+    const [authToken, setAuthToken] = useState("")
+    useEffect(() => {
+        if (sessionStorage.getItem('token')) {
+            setAuthToken(sessionStorage.getItem('token'))
+            
+        } else {
+            setAuthToken("")
+        }
+    }, [authToken]);
     const navigate = useNavigate();
-    const params = useParams()
+    let [params] = useSearchParams();
+    let nombreCurso = params.get('nombre')
     let idA = useParams();
 
 
-    {/*
-    const [deleteModal, setDeleteModal] = useState(false)
-    const [alumnoData, setAlumnoData] = useState({})
-    const deleteForever = function () {
-        let request = {
-            method: 'DELETE'
+    const destructureId = (alumnos) => {
+        for (let i = 0; i < alumnos.length; i++) {
+            if (inscripted.indexOf(alumnos[i].id == -1)) {
+                setInscripted(inscripted => [...inscripted, alumnos[i].id])
+            } else {
+                continue;
+            }
         }
-        fetch(`http://localhost:3030/alumnos/${alumnoData.id}`, request)
+
+    }
+    const addAlumn = (alumnoId) => {
+        let addRow = document.getElementById(alumnoId)
+        if (signUp.data.indexOf(alumnoId) == -1) {
+            setSignUp({
+                data: [...signUp.data, alumnoId]
+            })
+
+            addRow.style.backgroundColor = "rgba(13, 110, 253,0.85)";
+            addRow.style.color = "white";
+        } else {
+            let posicion = signUp.data.indexOf(alumnoId)
+            setSignUp({
+                data: [signUp.data[posicion] = 0]
+            })
+            setSignUp(signUp)
+            addRow.style.backgroundColor = "white";
+            addRow.style.color = "black";
+        }
+
+    }
+    const dropAlumn = (alumnoId, alumnoDni) => {
+        let addRow = document.getElementById(alumnoId)
+        if (dropAlumns.data.indexOf(alumnoId) == -1) {
+            setDropAlumns({
+                data: [...dropAlumns.data, alumnoId]
+            })
+            addRow.style.backgroundColor = "var(--secondary-color)";
+            addRow.style.color = "var(--third-color)";
+            document.getElementById(alumnoDni).style.color = "var(--third-color)"
+        } else {
+            let posicion = dropAlumns.data.indexOf(alumnoId)
+            setDropAlumns({
+                data: [dropAlumns.data[posicion] = 0]
+            })
+            setDropAlumns(dropAlumns)
+            addRow.style.backgroundColor = "var(--registra-ya-bg)";
+            addRow.style.color = "white";
+        }
+    }
+    const checkNotZero = (element) => {
+        return element > 0;
+    }
+    const addFetch = () => {
+        let request = {
+            method: 'PUT',
+            body: JSON.stringify(signUp),
+            headers: { 'Content-type': 'application/json', 'authorization': sessionStorage.getItem('token') }
+        }
+        return fetch(`http://localhost:3030/cursos/inscAlumno/${idA.id}`, request)
             .then(res => {
                 return res.json().then(body => {
                     return {
@@ -572,58 +648,27 @@ export function InscribirAlumno() {
             })
             .then(result => {
                 if (result.ok) {
-                    toast.success(result.body.message, {
-                        position: "bottom-right",
-                        autoClose: 4500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-                    setStop(true)
-                } else {
-                    toast.error(result.body.message, {
-                        position: "bottom-right",
-                        autoClose: 4500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
+                    alert(result.body.message)
+                    setSignUp([])
+                    setRefresh(refresh + 1)
+                    navigate("/cursos")
 
+                } else {
+                    alert(result.body.message)
+                    setRefresh(refresh + 1)
                 }
             }),
             (error) => {
                 console.log(error)
-
             }
     }
-    const showDeleteModal = (datosAlumno) => {
-        setDeleteModal(true);
-        setAlumnoData(datosAlumno)
-    }
-    const closeDeleteModal = () => {
-        setDeleteModal(false)
-    }
-     */}
-    let getMethod = {
-        method: 'GET',
-        headers: {
-            "authorization": sessionStorage.getItem('token')
+    const dropFetch = () => {
+        let request = {
+            method: 'DELETE',
+            body: JSON.stringify(dropAlumns),
+            headers: { 'Content-type': 'application/json', 'authorization': sessionStorage.getItem('token') }
         }
-    }
-    let postMethod = {
-        method: 'POST',
-        headers: {
-            "authorization": sessionStorage.getItem('token')
-        }
-    }
-    useEffect(() => {
-        fetch('http://localhost:3030/alumnos', getMethod)
+        return fetch(`http://localhost:3030/cursos/inscAlumno/${idA.id}`, request)
             .then(res => {
                 return res.json().then(body => {
                     return {
@@ -636,7 +681,91 @@ export function InscribirAlumno() {
             })
             .then(result => {
                 if (result.ok) {
-                    setAlumns(result.body)
+                    alert(result.body.message)
+                    setSignUp([])
+                    setRefresh(refresh + 1)
+                } else {
+                    alert(result.body.message)
+                    setRefresh(refresh + 1)
+                }
+            }),
+            (error) => {
+                console.log(error)
+            }
+    }
+    async function doubleFetch() {
+        return addFetch()
+    }
+    const saveInscripted = () => {
+        let insID;
+        for (insID of signUp.data) {
+            if (insID == 0) {
+                continue
+            } else {
+                document.getElementById(insID).style.backgroundColor = "white";
+                document.getElementById(insID).style.color = "black";
+            }
+        }
+        let dropID;
+        for (dropID of dropAlumns.data) {
+            if (dropID == 0) {
+                continue
+            } else {
+                document.getElementById(dropID).style.backgroundColor = "white";
+                document.getElementById(dropID).style.color = "black";
+            }
+
+        }
+        if (signUp.data.length > 0 && dropAlumns.data.length == 0) {
+            if (signUp.data.some(checkNotZero) == false) {
+                alert("Realice alguna accion antes de presionar en Guardar Cambios");
+            } else {
+                return addFetch()
+            }
+        } else if (signUp.data.length == 0 && dropAlumns.data.length > 0) {
+            if (dropAlumns.data.some(checkNotZero) == false) {
+                alert("Realice alguna accion antes de presionar en Guardar Cambios");
+            } else {
+                return dropFetch()
+            }
+        }
+        else if (signUp.data.length > 0 && dropAlumns.data.length > 0) {
+            if (signUp.data.some(checkNotZero) == true && dropAlumns.data.some(checkNotZero) == false) {
+                return addFetch()
+            } else if (signUp.data.some(checkNotZero) == false && dropAlumns.data.some(checkNotZero) == true) {
+                return dropFetch()
+            } else {
+                doubleFetch().then(
+                    function (value) { dropFetch() },
+                    function (error) { console.log(error) }
+                )
+            }
+
+        }
+
+    }
+
+
+    useEffect(() => {
+        let listById = {
+            method: 'GET',
+            headers: { 'authorization': sessionStorage.getItem('token') }
+        }
+        fetch(`http://localhost:3030/cursos/inscAlumno/${idA.id}`, listById)
+            .then(res => {
+                return res.json().then(body => {
+                    return {
+                        status: res.status,
+                        ok: res.ok,
+                        headers: res.headers,
+                        body: body
+                    }
+                })
+            })
+            .then(result => {
+                if (result.ok) {
+                    destructureId(result.body.details)
+
                 } else {
                     toast.error(result.body.message, {
                         position: "bottom-right",
@@ -650,8 +779,8 @@ export function InscribirAlumno() {
                     })
                 }
             })
-            .then(res => {
-                fetch(`http://localhost:3030/cursos/inscAlumno/${idA.id}`, postMethod)
+            .then(next => {
+                fetch('http://localhost:3030/alumnos')
                     .then(res => {
                         return res.json().then(body => {
                             return {
@@ -664,14 +793,7 @@ export function InscribirAlumno() {
                     })
                     .then(result => {
                         if (result.ok) {
-                            let dataLength = [result.body].length;
-                            for (let i = -1; i < dataLength; i++) {
-                                if (i < 0) {
-                                    continue
-                                } else {
-                                    setInscriptedAlumns(result.body[i].id)
-                                }
-                            }
+                            setAlumns(result.body)
                         } else {
                             toast.error(result.body.message, {
                                 position: "bottom-right",
@@ -686,87 +808,89 @@ export function InscribirAlumno() {
                         }
                     })
             })
-    }, [Stop])
-    return (
-        <>
-            <NavAdmin/>
-            <section id="inscripcionAlumnos">
-                <div className="backButton-container">
-                    <Link to="/cursos">
-                        <Button type='button' className='backButton'>
-                            <FontAwesomeIcon icon={faArrowLeft} />
-                        </Button>
-                    </Link>
-                </div>
-                <div className="container">
-                    <div className="row">
-                        <div className="col">
-                            <h1 className="main-title">Inscripcion alumnos</h1>
+    }, [])
+
+    if (authToken) {
+        let decoded = jwt_decode(authToken)
+        return (
+            <>
+                <NavAdmin nickname={decoded.nickname} />
+                <section id="inscripcionAlumnos">
+                    <div className="backButton-container">
+                        <Link to="/cursos">
+                            <Button type='button' className='backButton'>
+                                <FontAwesomeIcon icon={faArrowLeft} />
+                            </Button>
+                        </Link>
+                    </div>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col">
+                                <h1 className="main-title">Inscripcion alumnos</h1>
+                                <p><b>Curso: </b> {nombreCurso} </p>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col">
+                                <Table responsive="sm" bordered>
+                                    <thead>
+                                        <tr className='t-head-bg'>
+                                            <th>ID</th>
+                                            <th>Nombre</th>
+                                            <th>Apellido</th>
+                                            <th>DNI</th>
+                                            <th>ID_usuario</th>
+                                            <th>Accion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {Alumns.map((alumno, index) => {
+                                            let inscriptedAlumn = inscripted.indexOf(alumno.id) != -1;
+                                            return (
+                                                <tr key={index} id={`${alumno.id}`} className={inscriptedAlumn ? "inscriptedAlumns-tr" : ""} >
+                                                    <td>{alumno.id}</td>
+                                                    <td>{alumno.nombre}</td>
+                                                    <td>{alumno.apellido}</td>
+                                                    <td>{alumno.dni}</td>
+                                                    <td>{alumno.id_usuario}</td>
+                                                    {inscriptedAlumn ?
+                                                        <td className='settingsButton-container'>
+                                                            <Button onClick={() => dropAlumn(alumno.id, alumno.dni)} id={`${alumno.dni}`} className='settingsButton-td settingsButton-td--eliminate '>
+                                                                <FontAwesomeIcon icon={faUserXmark} />
+                                                            </Button>
+                                                        </td>
+                                                        :
+                                                        <td className='settingsButton-container' >
+                                                            <Button onClick={() => addAlumn(alumno.id)} className='settingsButton-td settingsButton-td--add '>
+                                                                <FontAwesomeIcon icon={faUserPlus} />
+                                                            </Button>
+                                                        </td>
+                                                    }
+                                                </tr>
+                                            )
+                                        })}
+
+                                    </tbody>
+                                </Table>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="saveInscripted-container">
+                                <a href={`/cursos/inscAlumno/${idA.id}?nombre=${nombreCurso}`}>
+                                    <button onClick={saveInscripted} type="button" className='btn btn-primary saveInscripted-button'>Guardar cambios</button>
+                                </a>
+                            </div>
                         </div>
                     </div>
+                </section>
+                <ToastContainer />
+                <Footer />
+            </>
+        )
+    }
 
-                    <div className="row">
-                        <div className="col">
-                            <Table responsive="sm" bordered>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nombre</th>
-                                        <th>Apellido</th>
-                                        <th>DNI</th>
-                                        <th>ID_usuario</th>
-                                        <th>Accion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {Alumns.map((alumno, index) => {
-
-                                        return (
-                                            <tr key={index} >
-                                                <td>{alumno.id}</td>
-                                                <td>{alumno.nombre}</td>
-                                                <td>{alumno.apellido}</td>
-                                                <td>{alumno.dni}</td>
-                                                <td>{alumno.id_usuario}</td>
-                                                <td className='settingsButton-container' >
-                                                    <Button className='settingsButton-td settingsButton-td--add '>
-                                                        <FontAwesomeIcon icon={faUserPlus} />
-                                                    </Button>
-                                                    <Button className='settingsButton-td settingsButton-td--eliminate '>
-                                                        <FontAwesomeIcon icon={faUserXmark} />
-                                                    </Button>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })}
-
-                                    {inscriptedAlumns.map((alumnoIns, index) => {
-                                        return (
-                                            <tr key={index} className='inscriptedCourses-tr'> {/*Fila de tabla para alumno si inscripto al curso*/}
-                                                <td>LOS OTROS RRR</td>
-                                                <td>{alumnoIns.id}</td>
-                                                <td>{alumnoIns.nombre}</td>
-                                                <td>{alumnoIns.apellido}</td>
-                                                <td>{alumnoIns.dni}</td>
-                                                <td>{alumnoIns.id_usuario}</td>
-                                                <td className='settingsButton-container' >
-                                                    <Button className='settingsButton-td settingsButton-td--eliminate '>
-                                                        <FontAwesomeIcon icon={faUserXmark} />
-                                                    </Button>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })}
-                                </tbody>
-                            </Table>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-            <Footer />
-        </>
-    )
 }
 
 

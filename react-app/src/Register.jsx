@@ -1,6 +1,7 @@
 import './css/register.css'
 import { useState, useEffect } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import Alert from 'react-bootstrap/Alert';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Toast } from 'bootstrap';
@@ -9,9 +10,14 @@ function Register() {
     document.title = 'Registro';
     const [registerData, setRegisterData] = useState({
         nickname: "",
-        email:"",
+        email: "",
         password: "",
-        rol: ""
+        rol: "alumno"
+    })
+    debugger
+    const [show, setShow] = useState({
+        status: false,
+        message: ""
     })
     const registerInputHandler = (event) => {
         setRegisterData({
@@ -21,14 +27,6 @@ function Register() {
     }
     let navigate = useNavigate();
     const registerSave = (event) => {
-        if(registerData.email == 'admin@admin.com' && registerData.password == 'admin'){
-            registerData.rol = 'admin'
-        } else if(registerData.email == 'docente@docente.com' && registerData.password == 'docente'){
-            registerData.rol = 'docente'
-        }else{
-            registerData.rol = 'alumno'
-        }
-        
         event.preventDefault();
         let request = {
             method: 'PUT',
@@ -49,18 +47,6 @@ function Register() {
             .then(result => {
                 if (result.ok) {
                     toast.success(result.body.message, {
-                        position: "top-right",
-                        autoClose: 4500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-                    return navigate('/');
-                } else {
-                    return toast.error(result.body.message, {
                         position: "bottom-right",
                         autoClose: 4500,
                         hideProgressBar: false,
@@ -69,6 +55,13 @@ function Register() {
                         draggable: true,
                         progress: undefined,
                         theme: "light",
+                    })
+                     navigate('/login');
+                } else {
+                    let errMsg = result.body.message;
+                    setShow({
+                        status: true,
+                        message: errMsg
                     })
                 }
             }),
@@ -90,11 +83,16 @@ function Register() {
                                 obtener ese trabajo de tus sueños.
                             </p>
                         </div>
+                        <Alert show={show.status} onClose={() => setShow({ status: false })} dismissible variant="danger">
+                            <p>
+                                {show.message}
+                            </p>
+                        </Alert>
                         <div className="registerLeft-form">
                             <form>
                                 <div className="input-container">
                                     <label className="inputLabel" for="username"
-                                    >Nombre de usuario</label>   
+                                    >Nombre de usuario</label>
                                     <input
                                         type="text"
                                         id="username"
@@ -146,7 +144,6 @@ function Register() {
                     </div>
                 </div>
             </section>
-            <ToastContainer/>
         </>
     )
 }

@@ -1,12 +1,18 @@
 import './css/login.css'
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useFetchers, useNavigate } from 'react-router-dom';
+import Alert from 'react-bootstrap/Alert';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function Login() {
+    document.title = 'Login'
     const [userData, setUserData] = useState({
         nickname: "",
         password: ""
+    })
+    const [show, setShow] = useState({
+        status: false,
+        message: ""
     })
     const loginInputHandler = (event) => {
         setUserData({
@@ -16,7 +22,6 @@ function Login() {
     }
     let navigate = useNavigate();
     const loginSave = (event) => {
-        debugger
         event.preventDefault();
         let request = {
             method: 'POST',
@@ -49,16 +54,12 @@ function Login() {
                     })
                     return navigate('/');
                 } else {
-                    return toast.error(result.body.message, {
-                        position: "bottom-right",
-                        autoClose: 4500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
+                    let err = result.body.message
+                    setShow({
+                        status: true,
+                        message: err
                     })
+
                 }
             }),
             (error) => {
@@ -66,14 +67,22 @@ function Login() {
 
             }
     }
+    useEffect(()=>{ 
+        return console.log("pagina reiniciada")
+    },[show])
     return (
         <>
             <section id="login">
                 <div className="login-container">
                     <div className="loginLeft-container">
                         <div className="loginLeft-title">
-                            <h1 className="loginLeft-title-h1">Bienvenido de vuelta</h1>
+                            <h1 className="loginLeft-title-h1">Bienvenido</h1>
                             <p className='loginLeft-title-p'>Bienvenido! Porfavor ingrese sus datos</p>
+                            <Alert show={show.status} onClose={() => setShow({status:false})} dismissible variant="danger">
+                                <p>
+                                    {show.message}
+                                </p>
+                            </Alert>
                         </div>
                         <div className="loginLeft-form">
                             <form>
@@ -109,7 +118,7 @@ function Login() {
                                             type="checkbox"
                                             value=""
                                             id="flexCheckChecked"
-                                            
+
                                         />
                                         <label className="form-check-label" for="flexCheckChecked">
                                             Remember me
@@ -139,9 +148,8 @@ function Login() {
                         <img src="/characterSlider.svg" alt="loginImg" />
                     </div>
                 </div>
-                <ToastContainer/>
             </section>
-            
+        <ToastContainer/>
         </>
     )
 }

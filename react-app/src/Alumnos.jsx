@@ -1,9 +1,9 @@
 import './css/listadoAlumnos.css'
 import './css/style.css'
-import NavAdmin,{NavPublic} from './Nav';
+import NavAdmin, { NavPublic } from './Nav';
 import Footer from './Footer';
 import React, { useState, useEffect } from 'react';
-import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { Link, Navigate, useFetcher, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -15,9 +15,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faPlus, faArrowLeft, faUserPlus, faUserXmark, faPenToSquare, faCircleXmark, faContactBook } from '@fortawesome/free-solid-svg-icons'
+import jwt_decode from "jwt-decode";
 
 
-let token = sessionStorage.getItem('token')
+
 
 function ListaAlumnos(props) {
     const [Alumns, setAlumns] = useState([])
@@ -27,7 +28,8 @@ function ListaAlumnos(props) {
 
     const deleteForever = function () {
         let request = {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: { 'authorization': sessionStorage.getItem(`token`) }
         }
         fetch(`http://localhost:3030/alumnos/${alumnoData.id}`, request)
             .then(res => {
@@ -144,7 +146,7 @@ function ListaAlumnos(props) {
                                     <td>{alumno.dni} </td>
                                     <td>{alumno.id_usuario} </td>
                                     <td className='settingsButton-container'>
-                                        <Link to={`/alumnos/gestAlumno/${alumno.id}?nombre=${alumno.nombre}&apellido=${alumno.apellido}`}>
+                                        <Link to={`/alumnos/gestAlumno/${alumno.id}?nombre=${alumno.nombre}&apellido=${alumno.apellido}&dni=${alumno.dni}&id_usuario=${alumno.id_usuario}`}>
                                             <Button className='settingsButton-td td-edit'>
                                                 <FontAwesomeIcon icon={faPenToSquare} />
                                             </Button>
@@ -189,23 +191,40 @@ function ListaAlumnos(props) {
 
 function Alumnos() {
     document.title = 'Alumnos'
-    if (token) {
-        return (
-            <>
-                <NavAdmin />
-                <AlumnosAdmin />
-                <Footer />
-                <ToastContainer />
-            </>
-        )
+    const [authToken, setAuthToken] = useState(sessionStorage.getItem('token'))
+    useEffect(() => {
+        if (sessionStorage.getItem('token')) {
+            setAuthToken(sessionStorage.getItem('token'))
+        } else {
+            setAuthToken("")
+        }
+    }, [authToken])
+    if (authToken != "") {
+        let decoded = jwt_decode(authToken)
+        if (decoded.rol == 'admin') {
+            return (
+                <>
+                    <NavAdmin nickname={decoded.nickname} />
+                    <AlumnosAdmin />
+                    <Footer />
+                    <ToastContainer />
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <NavPublic />
+                    <AlumnosPublic />
+                    <Footer />
+                    <ToastContainer />
+                </>
+            )
+        }
 
     } else {
         return (
             <>
-                <NavPublic />
-                <AlumnosPublic />
-                <Footer />
-                <ToastContainer />
+                <h1>Pagina restringida</h1>
             </>
         )
     }
@@ -266,19 +285,18 @@ function AlumnosAdmin() {
                     <div className="row">
                         <div className="col">
                             <ListaAlumnos />
-
+                            <ToastContainer />
                         </div>
                     </div>
                 </div>
             </section >
-            <ToastContainer />
         </>
     )
 }
 function AlumnosPublic() {
     return (
         <>
-            <p>No tiene acceso a esta pagina</p>
+            <p>POV: sos un usuario pero no el admin</p>
         </>
     )
 }
@@ -289,12 +307,33 @@ export function GestAlumno(props) {
         dni: "",
         id_usuario: ""
     })
+    const [authToken, setAuthToken] = useState({
+        token: "",
+        data: {}
+    })
     const [params] = useSearchParams();
-    let nombre = params.get('nombre')
-    let apellido = params.get('apellido')
+    let nombre = params.get('nombre');
+    let apellido = params.get('apellido');
+
     const idA = useParams();
     const navigate = useNavigate();
-    idA.id ? document.title='Modificar alumno': document.title = 'Crear alumno'
+    idA.id ? document.title = 'Modificar alumno' : document.title = 'Crear alumno'
+
+    useEffect(() => {
+        if (sessionStorage.getItem('token')) {
+            setAuthToken({ token: sessionStorage.getItem('token') })
+            setAuthToken({ data: jwt_decode(sessionStorage.getItem('token')) })
+            setGestAlumno({
+                nombre: params.get('nombre'),
+                apellido: params.get('apellido'),
+                dni: params.get('dni'),
+                id_usuario: params.get('id_usuario')
+            })
+        } else {
+            setAuthToken({ token: "" })
+        }
+        
+    }, [])
 
     const gestInputHandler = (event) => {
         setGestAlumno({
@@ -302,52 +341,9 @@ export function GestAlumno(props) {
             [event.target.name]: event.target.value
         })
     }
+    debugger
     const postFetch = (request) => {
         return fetch(`http://localhost:3030/alumnos/${idA.id}`, request)
-            .then(res => {
-                return res.json().then(body => {
-                    return {
-                        status: res.status,
-                        ok: res.ok,
-                        headers: res.headers,
-                        body: body
-                    }
-                })
-            })
-            .then(result => {
-                if (result.ok) {
-                    toast.success(`Alumno modificado correctamente!`, {
-                        position: "bottom-right",
-                        autoClose: 4500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-                    return navigate('/alumnos');
-                } else {
-                    toast.error('Error en la modificacion del alumno .', {
-                        position: "bottom-right",
-                        autoClose: 4500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-                    return navigate('/alumnos')
-                }
-            }),
-            (error) => {
-                console.log(error)
-
-            }
-    }
-    const putFetch = (request) => {
-        return fetch(`http://localhost:3030/alumnos`, request)
             .then(res => {
                 return res.json().then(body => {
                     return {
@@ -370,7 +366,56 @@ export function GestAlumno(props) {
                         progress: undefined,
                         theme: "light",
                     })
-                    return navigate('/alumnos');
+                    navigate('/alumnos');
+
+
+                } else {
+                    toast.error(result.body.message, {
+                        position: "bottom-right",
+                        autoClose: 4500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+                    return navigate('/alumnos')
+                }
+            }),
+
+            (error) => {
+                console.log(error)
+
+            }
+    }
+    const putFetch = (request) => {
+        return fetch(`http://localhost:3030/alumnos`, request)
+            .then(res => {
+                return res.json().then(body => {
+                    return {
+                        status: res.status,
+                        ok: res.ok,
+                        headers: res.headers,
+                        body: body
+                    }
+                })
+            })
+            .then(result => {
+                if (result.ok) {
+                    navigate('/alumnos');
+                    toast.success(result.body.message, {
+                        position: "bottom-right",
+                        autoClose: 4500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+
+
                 } else {
                     toast.error(result.body.message, {
                         position: "bottom-right",
@@ -392,21 +437,20 @@ export function GestAlumno(props) {
     }
 
     const gestSave = (event) => {
+
         event.preventDefault();
         let request = {
             method: idA.id ? 'POST' : 'PUT',
             body: JSON.stringify(gestAlumno),
-            headers: { 'Content-type': 'application/json', 'authorization':sessionStorage.getItem('token') }
+            headers: { 'Content-type': 'application/json', 'authorization': sessionStorage.getItem('token') }
         }
-
         { idA.id ? postFetch(request) : putFetch(request) }
 
 
     }
-
     return (
         <>
-            <NavAdmin />
+            <NavAdmin nickname={authToken.data.nickname} />
             <section id='crearAlumno'>
                 <div className="backButton-container">
                     <Link to="/alumnos">
@@ -426,13 +470,13 @@ export function GestAlumno(props) {
                             <div className="col-6">
                                 <div className="input-container">
                                     <label className='form-label' for="alumn-name-input">Nombre</label>
-                                    <input id="alumn-name-input" type="text" className="form-control" onChange={gestInputHandler} placeholder='Ingrese el nombre del alumno' name="nombre" required autoComplete='off' />
+                                    <input id="alumn-name-input" type="text" className="form-control" value={gestAlumno.nombre} onChange={gestInputHandler} placeholder='Ingrese el nombre del alumno' name="nombre" autoComplete='off' required />
                                 </div>
                             </div>
                             <div className="col-6">
                                 <div className="input-container">
                                     <label className='form-label' for="alumn-surname-input">Apellido</label>
-                                    <input id="alumn-surname-input" type="text" className="form-control" onChange={gestInputHandler} placeholder='Ingrese el apellido del alumno' name="apellido" required autoComplete='off' />
+                                    <input id="alumn-surname-input" type="text" className="form-control" value={gestAlumno.apellido} onChange={gestInputHandler} placeholder='Ingrese el apellido del alumno' name="apellido" autoComplete='off' required />
                                 </div>
                             </div>
                         </div>
@@ -440,13 +484,13 @@ export function GestAlumno(props) {
                             <div className="col-6 col-sm-3">
                                 <div className="input-container">
                                     <label className='form-label' for="alumn-idUsuario-input">ID de usuario</label>
-                                    <input className='form-control' type="text" id="alumn-idUsuario-input" onChange={gestInputHandler} name="id_usuario" required autoComplete='off' />
+                                    <input className='form-control' type="text" id="alumn-idUsuario-input" value={gestAlumno.id_usuario} onChange={gestInputHandler} name="id_usuario" autoComplete='off' required />
                                 </div>
                             </div>
                             <div className="col-6 col-sm-9" >
                                 <div className="input-container">
                                     <label className='form-label' for="alumn-dni-input">DNI</label>
-                                    <input className='form-control' type="text" id="alumn-dni-input" onChange={gestInputHandler} placeholder="Ejemplo: 46241068" name="dni" required autoComplete='off' />
+                                    <input className='form-control' type="text" id="alumn-dni-input" value={gestAlumno.dni} onChange={gestInputHandler} placeholder="Ejemplo: 46241068" name="dni" autoComplete='off' aria-required required />
                                 </div>
                             </div>
                         </div>
